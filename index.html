@@ -222,11 +222,11 @@
     .t-header {
       position:relative; z-index:2; padding:52px 20px 14px 72px;
       display:flex; align-items:center; justify-content:space-between;
-      border-bottom:1px solid var(--olive-pale); background:var(--cream); flex-shrink:0;
+      border-bottom:2px solid var(--accent); background:var(--cream); flex-shrink:0; transition:border-color 0.5s;
     }
-    .t-logo { width:32px; height:32px; border:1.5px solid var(--olive); border-radius:50%; display:flex; align-items:center; justify-content:center; position:relative; background:var(--cream-light); flex-shrink:0; margin-right:10px; }
-    .t-logo::after { content:''; width:18px; height:18px; border:1px solid var(--olive-mid); border-radius:50%; position:absolute; }
-    .t-logo-dot { width:7px; height:7px; background:var(--olive); border-radius:50%; }
+    .t-logo { width:32px; height:32px; border:1.5px solid var(--accent); border-radius:50%; display:flex; align-items:center; justify-content:center; position:relative; background:var(--cream-light); flex-shrink:0; margin-right:10px; }
+    .t-logo::after { content:''; width:18px; height:18px; border:1px solid var(--accent); border-radius:50%; position:absolute; transition:border-color 0.5s; }
+    .t-logo-dot { width:7px; height:7px; background:var(--accent); border-radius:50%; transition:background 0.5s; }
     .t-name { font-size:13px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--ink); }
     .t-date { font-size:11px; color:var(--olive-mid); letter-spacing:0.08em; text-align:right; line-height:1.5; }
 
@@ -235,12 +235,12 @@
       padding:16px 20px 80px 20px; position:relative; z-index:1;
     }
 
-    .section-label { font-size:10px; font-weight:700; letter-spacing:0.25em; text-transform:uppercase; color:var(--olive-mid); margin-bottom:12px; margin-top:20px; }
+    .section-label { font-size:10px; font-weight:700; letter-spacing:0.25em; text-transform:uppercase; color:var(--accent); margin-bottom:12px; margin-top:20px; transition:color 0.5s; }
 
     /* Mindfulness card */
     .mindful-card {
-      background:var(--olive); border-radius:4px; padding:20px;
-      margin-bottom:4px; position:relative; overflow:hidden;
+      background:var(--accent); border-radius:4px; padding:20px;
+      margin-bottom:4px; position:relative; overflow:hidden; transition:background 0.5s;
     }
     .mindful-card::before { content:''; position:absolute; top:-20px; right:-20px; width:100px; height:100px; border:2px solid rgba(255,255,255,0.1); border-radius:50%; }
     .mindful-card::after { content:''; position:absolute; top:-40px; right:-40px; width:140px; height:140px; border:2px solid rgba(255,255,255,0.05); border-radius:50%; }
@@ -262,7 +262,7 @@
     .timer-close { font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:var(--olive-pale); cursor:pointer; border:1px solid var(--olive-pale); padding:10px 24px; border-radius:2px; background:none; font-family:'Splendid',monospace; }
 
     /* Dose toggle */
-    .dose-row { display:flex; align-items:center; justify-content:space-between; background:rgba(255,255,255,0.4); border:1.5px solid var(--olive-pale); border-radius:4px; padding:14px 16px; margin-bottom:10px; }
+    .dose-row { display:flex; align-items:center; justify-content:space-between; background:rgba(255,255,255,0.4); border:1.5px solid var(--olive-pale); border-left:3px solid var(--accent); border-radius:4px; padding:14px 16px; margin-bottom:10px; transition:border-color 0.5s; }
     .dose-label { font-size:15px; font-weight:700; color:var(--ink); letter-spacing:0.04em; }
     .dose-sub { font-size:11px; color:var(--olive-mid); letter-spacing:0.06em; margin-top:2px; }
     .toggle-wrap { display:flex; gap:8px; }
@@ -285,7 +285,7 @@
     .text-label { font-size:15px; font-weight:700; color:var(--ink); letter-spacing:0.04em; margin-bottom:8px; display:block; }
     .text-input { width:100%; background:transparent; border:none; border-bottom:1.5px solid var(--olive-pale); padding:6px 0; font-family:'Splendid',serif; font-size:15px; font-weight:400; font-style:italic; color:var(--ink); outline:none; caret-color:var(--olive); resize:none; }
     .text-input::placeholder { color:var(--olive-pale); }
-    .text-input:focus { border-bottom-color:var(--olive); }
+    .text-input:focus { border-bottom-color:var(--accent); }
     textarea.text-input { min-height:56px; line-height:1.6; border-bottom:none; }
 
     /* Save button */
@@ -329,9 +329,10 @@
     .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
 
     /* Bottom nav */
-    .bottom-nav { position:fixed; bottom:0; left:0; right:0; height:64px; background:var(--cream); border-top:1.5px solid var(--olive-pale); display:flex; align-items:center; justify-content:space-around; z-index:50; padding-bottom:env(safe-area-inset-bottom); }
+    .bottom-nav { position:fixed; bottom:0; left:0; right:0; height:64px; background:var(--cream); border-top:2px solid var(--accent); display:flex; align-items:center; justify-content:space-around; z-index:50; padding-bottom:env(safe-area-inset-bottom); }
     .nav-btn { display:flex; flex-direction:column; align-items:center; gap:3px; background:none; border:none; cursor:pointer; padding:8px 16px; color:var(--olive-pale); transition:color 0.2s; }
     .nav-btn.active { color:var(--accent); }
+    .nav-btn.active .nav-label { font-weight:700; }
     .nav-icon { font-size:18px; line-height:1; }
     .nav-label { font-size:9px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; }
 
@@ -1248,33 +1249,32 @@ function showToast(msg) {
 }
 
 const MINDFULNESS = [
-  {"type":"insight","cat":"How it works","title":"Psilocybin isn't the active ingredient","content":"Your body converts it into psilocin within minutes. That's what actually reaches your brain."},
-  {"type":"insight","cat":"Brain science","title":"Psilocin fools your brain into thinking it's serotonin","content":"They're structurally near-identical. Your receptors can't tell them apart."},
-  {"type":"insight","cat":"Brain science","title":"Psilocybin quiets your inner critic","content":"The brain's rumination centre — the Default Mode Network — goes quiet. Old thought loops loosen."},
-  {"type":"insight","cat":"Brain science","title":"Brain regions that never communicate suddenly do","content":"On psilocybin, memory, emotion, and sensory processing light up together. That doesn't happen in a normal waking state."},
-  {"type":"insight","cat":"Neuroplasticity","title":"Psilocybin literally grows new branches on neurons","content":"It triggers dendritic spine growth — the tiny connections between neurons. This is why effects can outlast the dose by days."},
-  {"type":"insight","cat":"Neuroplasticity","title":"The afterglow is structural, not chemical","content":"Psilocin clears your system in hours. The lingering clarity comes from new neural connections your brain is still reinforcing."},
-  {"type":"insight","cat":"History","title":"Ceremonial mushroom use goes back at least 3,500 years","content":"Rock art in Algeria and Mayan stone effigies both point to ritual use long before modern civilisation."},
-  {"type":"insight","cat":"History","title":"Psilocybin was sold legally by a pharmaceutical company until 1970","content":"Sandoz Pharmaceuticals marketed it as Indocybin. Harvard ran clinical trials on it. Then the Controlled Substances Act ended everything overnight."},
-  {"type":"insight","cat":"History","title":"The man who discovered LSD also isolated psilocybin","content":"Albert Hofmann extracted it in 1958 and called it one of the most important discoveries of his career. He lived to 102."},
-  {"type":"insight","cat":"Research","title":"One psilocybin session outperformed daily antidepressants in 2024","content":"Participants showed greater improvements in social functioning and quality of life than those taking escitalopram daily for weeks."},
-  {"type":"insight","cat":"Research","title":"Psilocybin ranked safest of 20 substances in a Lancet study","content":"Researchers ranked common substances by harm to self and others. Mushrooms came last — the least harmful on the entire list."},
-  {"type":"insight","cat":"Research","title":"96% of microdosers across 59 countries reported positive outcomes","content":"Fadiman and Korb collected 1,850+ reports globally. Only 4% were negative."},
-  {"type":"insight","cat":"Biology","title":"90% of your serotonin is in your gut, not your brain","content":"This is why psilocybin can cause nausea — and why dosing with food helps."},
-  {"type":"insight","cat":"Biology","title":"Psilocybin may be the most effective addiction treatment ever studied","content":"80% of participants quit or significantly reduced smoking after psilocybin sessions in a Johns Hopkins trial."},
-  {"type":"insight","cat":"Biology","title":"Why mushrooms make psilocybin is still unknown","content":"Insects aren't affected by it, ruling out the defence theory. Some researchers think it evolved specifically to influence mammal behaviour."},
-  {"type":"insight","cat":"Biology","title":"Lemon juice can reduce nausea before dosing","content":"Mushroom cell walls contain chitin — hard to digest. Soaking your dose in lemon juice starts breaking it down before it hits your stomach."},
-  {"type":"insight","cat":"How it works","title":"Psilocin enters your brain by impersonating serotonin","content":"The blood-brain barrier blocks almost everything — but psilocin's structure is close enough to serotonin that it waves it straight through."},
-  {"type":"insight","cat":"How it works","title":"A microdose is defined by what you don't feel","content":"If you notice visual changes or feel impaired, the dose is already too high."},
-  {"type":"insight","cat":"Neuroplasticity","title":"Habits built while microdosing stick more easily","content":"Dosing opens a plasticity window where new behaviours wire in more durably than at any other time."},
-  {"type":"insight","cat":"Research","title":"Psilocybin may reduce brain inflammation linked to depression","content":"It appears to interact with the brain's immune cells in ways that cool neuroinflammation — separate from its serotonin effects entirely."},
-  {"type":"insight","cat":"Biology","title":"Tolerance builds within days — rest days are essential","content":"Your receptors downregulate after repeated activation. Rest days are when they reset and sensitivity restores."},
-  {"type":"insight","cat":"History","title":"Women were excluded from early psychedelic research","content":"The 1950s–70s trials used almost exclusively male participants — the same bias that skewed all medical research for decades."},
-  {"type":"insight","cat":"How it works","title":"Mindset and environment shape the experience as much as the dose","content":"Researchers consistently find that set and setting influence outcomes as significantly as the compound itself."},
-  {"type":"insight","cat":"Research","title":"Menopause may be when psilocybin is most powerful","content":"Declining estrogen triggers a neuroplasticity window similar to adolescence. Psilocybin may amplify that natural receptivity."},
-  {"type":"insight","cat":"Biology","title":"Psilocybin boosts your brain's own growth hormone","content":"BDNF — the protein that keeps neurons healthy and growing — increases after psilocybin. This may explain why effects outlast the dose."}
+  {"type":"insight","cat":"Your cycle & your brain","title":"Your brain is not the same brain every week","content":"Estrogen, progesterone, testosterone, and LH all fluctuate across your cycle. Each hormone shapes cognition, mood, energy, and neuroplasticity differently. You're not inconsistent — you're cycling through four distinct brain states."},
+  {"type":"insight","cat":"Why this works","title":"Psilocybin doesn't change you. It reveals you.","content":"It quiets the Default Mode Network — the part of your brain that runs the inner critic, the rumination, the self-story. What's left underneath is often clearer and kinder than what you're used to."},
+  {"type":"insight","cat":"Your cycle & your brain","title":"The follicular phase is your sharpest learning window","content":"Rising estrogen enhances memory encoding, verbal fluency, and new skill acquisition. Microdosing during Rewire phase compounds this: psilocybin boosts BDNF, the protein that makes neurons grow new connections."},
+  {"type":"insight","cat":"The research gap","title":"Almost everything we know about psychedelics is based on male bodies","content":"The 1950s– 70s trials used near-exclusively male participants. Dosing protocols, timing, and safety data were never calibrated for cyclical hormonal biology. This app is built on what the research missed."},
+  {"type":"insight","cat":"Why this works","title":"A microdose is defined by what you don’t feel","content":"If you notice visual changes, feel spacey, or can’t work normally — the dose is too high. A true microdose sits below perception. Its effects are cumulative, not immediate."},
+  {"type":"insight","cat":"Your cycle & your brain","title":"Luteal phase is not a weakness. It’s a different kind of intelligence.","content":"Progesterone dominance in the Reflect phase sharpens your critical faculty and pattern recognition. This is when you see through things most clearly. Lower doses, quieter intentions — this is a time for editing, not creating."},
+  {"type":"insight","cat":"Neuroplasticity","title":"Psilocybin literally grows new branches on your neurons","content":"It triggers dendritic spine growth — the tiny connection points between neurons. This structural change is why effects outlast the dose by days. You're not just changing your mood. You’re changing your brain’s wiring."},
+  {"type":"insight","cat":"The research gap","title":"Menopause may be the most powerful neuroplasticity window of your life","content":"When estrogen declines, the brain enters a state similar to adolescence — highly malleable, restructuring itself. Psilocybin appears to amplify that receptivity. Researchers believe this window is significantly underexplored."},
+  {"type":"insight","cat":"Your cycle & your brain","title":"Ovulation is your peak expression window. Use it intentionally.","content":"The LH surge triggers your highest testosterone and estrogen together. Social confidence, physical energy, and communication are at their strongest. This is when insights from earlier phases can be put into the world."},
+  {"type":"insight","cat":"Why this works","title":"Rest days are not optional — they’re where the work happens","content":"Psilocybin opens a plasticity window. The off-days are when your brain consolidates what it learned. Dosing every day closes the window before anything sticks. The protocol is the point."},
+  {"type":"insight","cat":"Neuroplasticity","title":"The afterglow isn’t a feeling. It’s a structure.","content":"Psilocin clears your body in hours. The lingering clarity that follows comes from new neural connections your brain is still reinforcing. You’re not high — you’re integrating."},
+  {"type":"insight","cat":"The research gap","title":"Hormonal contraception changes how psilocybin is processed","content":"The liver enzymes that metabolise synthetic hormones overlap with those that process psilocybin. This may alter onset, intensity, and duration. If you’re on hormonal birth control, start with a lower dose and observe carefully."},
+  {"type":"insight","cat":"Your cycle & your brain","title":"Menstruation is a reset, not a failure","content":"The drop in progesterone and estrogen during the Rest phase is a detox signal. Your brain is clearing out. Lower doses, more rest, softer intentions — this is your body asking for gentleness, not productivity."},
+  {"type":"insight","cat":"Why this works","title":"90% of your serotonin is in your gut, not your brain","content":"This is why psilocybin can cause nausea, and why dosing on an empty stomach amplifies intensity. Your menstrual phase may increase gut sensitivity. Light food before dosing during Rest phase is worth trying."},
+  {"type":"insight","cat":"Neuroplasticity","title":"Habits built while microdosing embed more durably","content":"Psilocybin opens a critical period — similar to early childhood — where new patterns wire in faster. Pair dosing days with the behaviours you’re building. The compound is the scaffold, not the building."},
+  {"type":"insight","cat":"The research gap","title":"Perimenopause microdosing is one of the least studied and most promising areas in psychedelic medicine","content":"Symptom clusters — insomnia, anxiety, cognitive fog, mood dysregulation — overlap significantly with conditions where psilocybin shows clinical benefit. This is emerging territory, and you are part of mapping it."},
+  {"type":"insight","cat":"Why this works","title":"The inner critic lives in the Default Mode Network","content":"DMN overactivity is linked to depression, anxiety, and rumination. Psilocybin suppresses it. What many women describe as ‘finally being able to hear myself think’ is this quieting in action."},
+  {"type":"insight","cat":"Your cycle & your brain","title":"Cycle syncing your protocol isn’t woo. It’s pharmacology.","content":"Estrogen amplifies serotonergic signalling — the same system psilocybin acts on. Your Radiate and Rewire phases are neurobiologically primed for deeper effect. Your Rest and Reflect phases call for restraint."},
+  {"type":"insight","cat":"Neuroplasticity","title":"BDNF is your brain’s fertiliser","content":"Brain-Derived Neurotrophic Factor keeps neurons healthy, promotes new growth, and declines with chronic stress. Psilocybin upregulates BDNF. So does exercise, sleep, and estrogen. This is why the stack matters."},
+  {"type":"insight","cat":"The research gap","title":"Psilocybin ranked the safest of 20 substances in a Lancet study","content":"Researchers scored substances by harm to self and to others. Mushrooms ranked last — the least harmful on the entire list. Alcohol scored in the top three. This is not reflected in how they’re regulated."},
+  {"type":"insight","cat":"Why this works","title":"You can’t microdose your way out of a bad environment","content":"Set and setting shape outcomes as significantly as dose. If your circumstances are actively harmful, psilocybin may make you more aware of that, not less. Clarity is not always comfortable. It’s still useful."},
+  {"type":"insight","cat":"Your cycle & your brain","title":"Post-cycle is not the end of hormonal intelligence — it’s a different kind","content":"After menopause, the cyclical fluctuations stop, but the brain doesn’t go flat. It reorganises. Many women describe increased clarity, directness, and sense of self. Psilocybin may support rather than disrupt this transition."},
+  {"type":"insight","cat":"Neuroplasticity","title":"Tolerance builds in days. That’s a signal, not a problem.","content":"Receptor downregulation is your brain’s self-protection. Rest days restore sensitivity. If you find yourself wanting to dose more frequently, that’s the sign to hold the protocol, not abandon it."},
+  {"type":"insight","cat":"The research gap","title":"One session outperformed daily antidepressants in a 2024 trial","content":"Participants showed greater improvements in social functioning and quality of life than those taking escitalopram daily for six weeks. The comparison wasn’t close."},
+  {"type":"insight","cat":"Why this works","title":"This is medicine with a 3,500-year history","content":"Rock art in Algeria, Mayan stone effigies, Aztec ‘teonanácatl’ — ritual mushroom use spans continents and millennia. What we’re calling a new frontier is a very old practice being remembered."}
 ];
-
 </script>
 </body>
 </html>
