@@ -29,10 +29,7 @@
       --olive: #3a4a1e; --olive-dark: #252f12; --olive-mid: #2e3d18;
       --olive-light: #a8bb7a; --olive-pale: #8fa860; --ink: #0e1008;
       --grid-color: rgba(92,107,58,0.11); --grid-size: 28px;
-      /* Phase accent — swapped by JS */
-      --accent: #3a4a1e;
-      --accent-pale: #8fa860;
-      --accent-bg: rgba(58,74,30,0.06);
+      --accent: #3a4a1e; --accent-bg: rgba(58,74,30,0.06);
     }
 
     * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
@@ -277,7 +274,7 @@
     .rating-row { background:rgba(255,255,255,0.4); border:1.5px solid var(--olive-pale); border-radius:4px; padding:12px 16px; margin-bottom:10px; }
     .rating-header { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; }
     .rating-label { font-size:15px; font-weight:700; color:var(--ink); letter-spacing:0.04em; }
-    .rating-value { font-family:'Splendid',serif; font-size:22px; font-weight:700; font-style:italic; color:var(--accent); }
+    .rating-value { font-family:'Splendid',serif; font-size:22px; font-weight:700; font-style:italic; color:var(--olive); }
     .rating-value.unset { color:var(--olive-pale); }
     .rating-dots { display:flex; gap:8px; }
     .rating-dot { flex:1; height:36px; border:2px solid var(--olive-pale); border-radius:4px; background:transparent; font-family:'Splendid',monospace; font-size:14px; font-weight:700; color:var(--olive-mid); cursor:pointer; transition:all 0.15s; display:flex; align-items:center; justify-content:center; }
@@ -352,7 +349,7 @@
 
     /* Insights */
     .insight-card { background:rgba(255,255,255,0.4); border:1.5px solid var(--olive-pale); border-radius:4px; padding:16px; margin-bottom:10px; }
-    .insight-num { font-family:'Splendid',serif; font-size:40px; font-weight:700; font-style:italic; color:var(--accent); line-height:1; }
+    .insight-num { font-family:'Splendid',serif; font-size:40px; font-weight:700; font-style:italic; color:var(--olive); line-height:1; }
     .insight-label { font-size:11px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--olive-mid); margin-top:4px; }
 
 
@@ -689,10 +686,10 @@
             <div id="w-arc-reflect" style="flex:1;height:4px;border-radius:2px;background:var(--olive-pale);transition:all 0.4s;"></div>
           </div>
           <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
-            <span id="w-arc-label-rest"    style="font-size:9px;color:var(--olive-pale);letter-spacing:0.1em;text-transform:uppercase;transition:color 0.4s;">Rest</span>
-            <span id="w-arc-label-rewire"  style="font-size:9px;color:var(--olive-pale);letter-spacing:0.1em;text-transform:uppercase;transition:color 0.4s;">Rewire</span>
-            <span id="w-arc-label-radiate" style="font-size:9px;color:var(--olive-pale);letter-spacing:0.1em;text-transform:uppercase;transition:color 0.4s;">Radiate</span>
-            <span id="w-arc-label-reflect" style="font-size:9px;color:var(--olive-pale);letter-spacing:0.1em;text-transform:uppercase;transition:color 0.4s;">Reflect</span>
+            <span style="font-size:9px;color:var(--olive-pale);letter-spacing:0.1em;text-transform:uppercase;">Rest</span>
+            <span style="font-size:9px;color:var(--olive-pale);letter-spacing:0.1em;text-transform:uppercase;">Rewire</span>
+            <span style="font-size:9px;color:var(--olive-pale);letter-spacing:0.1em;text-transform:uppercase;">Radiate</span>
+            <span style="font-size:9px;color:var(--olive-pale);letter-spacing:0.1em;text-transform:uppercase;">Reflect</span>
           </div>
           <div id="w-arc-day" style="font-size:12px;color:var(--olive-mid);letter-spacing:0.08em;text-align:center;"></div>
         </div>
@@ -799,7 +796,7 @@
       <div class="settings-row">
         <span class="settings-label">Get in Touch</span>
         <div class="settings-sub" style="margin-top:6px;margin-bottom:14px;">For questions about your practice or product enquiries —</div>
-        <a href="/cdn-cgi/l/email-protection#4e272028210e202b3b3c213e222f3d3a272d273a3728213c3a262b3e2b213e222b602d2123" style="font-family:'Splendid',serif;font-size:22px;font-weight:700;font-style:italic;color:var(--olive);text-decoration:none;display:block;line-height:1.3;">info@neuroplasticity<br>forthepeople.com</a>
+        <a href="/cdn-cgi/l/email-protection#4920272f2609272c3c3b263925283a3d202a203d302f263b3d212c392c2639252c672a2624" style="font-family:'Splendid',serif;font-size:22px;font-weight:700;font-style:italic;color:var(--olive);text-decoration:none;display:block;line-height:1.3;">info@neuroplasticity<br>forthepeople.com</a>
       </div>
 
       <div class="settings-row" style="border-color:rgba(200,50,50,0.2);">
@@ -982,36 +979,23 @@ function initHeader() {
 }
 
 // ── HERO CARD ─────────────────────────
-// ── PHASE COLOUR THEMING ──────────────
-// Each phase/state gets a distinct accent that complements olive
-// All are muted, earthy — fieldnote ink in different hues
+
 const PHASE_COLOURS = {
-  // Cycle phases
-  rest:    { accent: '#8a4a52', pale: 'rgba(138,74,82,0.18)',  bg: 'rgba(138,74,82,0.06)'  }, // dusty rose — inward, menstrual
-  rewire:  { accent: '#3a6b52', pale: 'rgba(58,107,82,0.18)',  bg: 'rgba(58,107,82,0.06)'  }, // forest teal — fresh, follicular
-  radiate: { accent: '#8a6b2a', pale: 'rgba(138,107,42,0.18)', bg: 'rgba(138,107,42,0.06)' }, // warm amber — expansive, ovulatory
-  reflect: { accent: '#7a4a38', pale: 'rgba(122,74,56,0.18)',  bg: 'rgba(122,74,56,0.06)'  }, // terracotta — grounding, luteal
-  // Energy states
-  still:   { accent: '#4a5a72', pale: 'rgba(74,90,114,0.18)',  bg: 'rgba(74,90,114,0.06)'  }, // slate blue — calm, still
-  rising:  { accent: '#3a5a40', pale: 'rgba(58,90,64,0.18)',   bg: 'rgba(58,90,64,0.06)'   }, // deep sage — building
-  full:    { accent: '#7a6020', pale: 'rgba(122,96,32,0.18)',  bg: 'rgba(122,96,32,0.06)'  }, // deep gold — peak expression
+  rest:    { accent: '#8a4a52', bg: 'rgba(138,74,82,0.06)'  },
+  rewire:  { accent: '#3a6b52', bg: 'rgba(58,107,82,0.06)'  },
+  radiate: { accent: '#8a6b2a', bg: 'rgba(138,107,42,0.06)' },
+  reflect: { accent: '#7a4a38', bg: 'rgba(122,74,56,0.06)'  },
+  still:   { accent: '#4a5a72', bg: 'rgba(74,90,114,0.06)'  },
+  rising:  { accent: '#3a5a40', bg: 'rgba(58,90,64,0.06)'   },
+  full:    { accent: '#7a6020', bg: 'rgba(122,96,32,0.06)'  },
 };
-
 function applyPhaseTheme(key) {
-  const theme = PHASE_COLOURS[key] || PHASE_COLOURS.rewire;
-  const root = document.documentElement;
-  root.style.setProperty('--accent', theme.accent);
-  root.style.setProperty('--accent-pale', theme.pale);
-  root.style.setProperty('--accent-bg', theme.bg);
-  // Also update theme-color meta for iOS status bar
-  const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.content = '#f0ead8';
+  var t = PHASE_COLOURS[key] || PHASE_COLOURS.rewire;
+  document.documentElement.style.setProperty('--accent', t.accent);
+  document.documentElement.style.setProperty('--accent-bg', t.bg);
 }
-
 function renderHero() {
   const { data, phase, day, isCycle, state } = getTodayData();
-
-  // Apply phase/state colour theme
   if (isCycle && phase) applyPhaseTheme(phase);
   else if (state) applyPhaseTheme(state);
   else applyPhaseTheme('rewire');
@@ -1041,8 +1025,6 @@ function renderHero() {
       const el = document.getElementById('w-arc-' + p);
       el.style.background = p === phase ? 'var(--accent)' : 'var(--olive-pale)';
       el.style.height     = p === phase ? '6px' : '4px';
-      const lbl = document.getElementById('w-arc-label-' + p);
-      if (lbl) lbl.style.color = p === phase ? 'var(--accent)' : 'var(--olive-pale)';
     });
     document.getElementById('w-arc-day').textContent = 'Day ' + day + ' of your cycle';
   } else {
@@ -1117,14 +1099,14 @@ function wSaveToday() {
 }
 
 // ── CALENDAR ──────────────────────────
-const PHASE_COLOURS = {
-  rest:    'rgba(90,70,50,0.18)',
-  rewire:  'rgba(58,74,30,0.18)',
-  radiate: 'rgba(180,120,30,0.15)',
-  reflect: 'rgba(60,80,100,0.18)',
-  still:   'rgba(90,70,50,0.15)',
-  rising:  'rgba(58,74,30,0.15)',
-  full:    'rgba(180,120,30,0.13)'
+const CAL_COLOURS = {
+  rest:    'rgba(138,74,82,0.15)',
+  rewire:  'rgba(58,107,82,0.15)',
+  radiate: 'rgba(138,107,42,0.13)',
+  reflect: 'rgba(122,74,56,0.15)',
+  still:   'rgba(74,90,114,0.15)',
+  rising:  'rgba(58,90,64,0.15)',
+  full:    'rgba(122,96,32,0.13)'
 };
 
 function renderCalendar() {
@@ -1144,7 +1126,7 @@ function renderCalendar() {
     const isFuture = d > todayDt;
     const cell = document.createElement('div');
     cell.className = 'cal-cell' + (isToday ? ' today' : '') + (isFuture ? ' future' : '') + (hasLog ? ' logged' : '');
-    cell.style.background = marker ? (PHASE_COLOURS[marker] || 'transparent') : 'transparent';
+    cell.style.background = marker ? (CAL_COLOURS[marker] || 'transparent') : 'transparent';
     cell.innerHTML = '<span class="cal-num">' + d.getDate() + '</span>' +
       (hasLog && entry.mood ? '<span class="cal-dot"></span>' : '');
     gridEl.appendChild(cell);
@@ -1250,7 +1232,6 @@ function wReset() {
   location.reload();
 }
 
-// ── TABS ──────────────────────────────
 function wTab(name) {
   document.querySelectorAll('#w-app .tab-panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('#w-app .nav-btn').forEach(b => b.classList.remove('active'));
@@ -1291,4 +1272,9 @@ const MINDFULNESS = [
   {"type":"insight","cat":"History","title":"Women were excluded from early psychedelic research","content":"The 1950s–70s trials used almost exclusively male participants — the same bias that skewed all medical research for decades."},
   {"type":"insight","cat":"How it works","title":"Mindset and environment shape the experience as much as the dose","content":"Researchers consistently find that set and setting influence outcomes as significantly as the compound itself."},
   {"type":"insight","cat":"Research","title":"Menopause may be when psilocybin is most powerful","content":"Declining estrogen triggers a neuroplasticity window similar to adolescence. Psilocybin may amplify that natural receptivity."},
-  {"type":"insight","cat":"Biology","title":"Psilocybin boosts your brain's own growth hormone","content":"BDNF
+  {"type":"insight","cat":"Biology","title":"Psilocybin boosts your brain's own growth hormone","content":"BDNF — the protein that keeps neurons healthy and growing — increases after psilocybin. This may explain why effects outlast the dose."}
+];
+
+</script>
+</body>
+</html>
