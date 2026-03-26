@@ -29,6 +29,10 @@
       --olive: #3a4a1e; --olive-dark: #252f12; --olive-mid: #2e3d18;
       --olive-light: #a8bb7a; --olive-pale: #8fa860; --ink: #0e1008;
       --grid-color: rgba(92,107,58,0.11); --grid-size: 28px;
+      /* Phase accent — swapped by JS */
+      --accent: #3a4a1e;
+      --accent-pale: #8fa860;
+      --accent-bg: rgba(58,74,30,0.06);
     }
 
     * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
@@ -266,18 +270,18 @@
     .dose-sub { font-size:11px; color:var(--olive-mid); letter-spacing:0.06em; margin-top:2px; }
     .toggle-wrap { display:flex; gap:8px; }
     .toggle-btn { width:48px; height:36px; border:2px solid var(--olive-pale); border-radius:4px; background:transparent; font-family:'Splendid',monospace; font-size:13px; font-weight:700; color:var(--olive-mid); cursor:pointer; transition:all 0.15s; }
-    .toggle-btn.active-yes { background:var(--olive); border-color:var(--olive); color:var(--cream-light); }
+    .toggle-btn.active-yes { background:var(--accent); border-color:var(--accent); color:var(--cream-light); }
     .toggle-btn.active-no { background:var(--ink); border-color:var(--ink); color:var(--cream-light); }
 
     /* Rating rows */
     .rating-row { background:rgba(255,255,255,0.4); border:1.5px solid var(--olive-pale); border-radius:4px; padding:12px 16px; margin-bottom:10px; }
     .rating-header { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; }
     .rating-label { font-size:15px; font-weight:700; color:var(--ink); letter-spacing:0.04em; }
-    .rating-value { font-family:'Splendid',serif; font-size:22px; font-weight:700; font-style:italic; color:var(--olive); }
+    .rating-value { font-family:'Splendid',serif; font-size:22px; font-weight:700; font-style:italic; color:var(--accent); }
     .rating-value.unset { color:var(--olive-pale); }
     .rating-dots { display:flex; gap:8px; }
     .rating-dot { flex:1; height:36px; border:2px solid var(--olive-pale); border-radius:4px; background:transparent; font-family:'Splendid',monospace; font-size:14px; font-weight:700; color:var(--olive-mid); cursor:pointer; transition:all 0.15s; display:flex; align-items:center; justify-content:center; }
-    .rating-dot.selected { background:var(--olive); border-color:var(--olive); color:var(--cream-light); }
+    .rating-dot.selected { background:var(--accent); border-color:var(--accent); color:var(--cream-light); }
 
     /* Text inputs */
     .text-row { background:rgba(255,255,255,0.4); border:1.5px solid var(--olive-pale); border-radius:4px; padding:12px 16px; margin-bottom:10px; }
@@ -288,7 +292,7 @@
     textarea.text-input { min-height:56px; line-height:1.6; border-bottom:none; }
 
     /* Save button */
-    .save-btn { background:var(--olive); color:var(--cream-light); border:none; border-radius:4px; padding:16px; font-family:'Splendid',monospace; font-size:14px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; cursor:pointer; width:100%; margin-top:8px; transition:background 0.2s, transform 0.15s; }
+    .save-btn { background:var(--accent); color:var(--cream-light); border:none; border-radius:4px; padding:16px; font-family:'Splendid',monospace; font-size:14px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; cursor:pointer; width:100%; margin-top:8px; transition:background 0.2s, transform 0.15s; }
     .save-btn:active { transform:scale(0.98); }
     .save-btn:hover { background:var(--olive-dark); }
 
@@ -296,8 +300,8 @@
     .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
     .cal-day-label { font-size:9px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--olive-mid); text-align:center; padding-bottom:4px; }
     .cal-day { aspect-ratio:1; border-radius:3px; border:1.5px solid var(--olive-pale); display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:var(--olive-mid); cursor:pointer; transition:all 0.15s; background:transparent; }
-    .cal-day.today { border-color:var(--olive); color:var(--olive); border-width:2px; }
-    .cal-day.dosed { background:var(--olive); border-color:var(--olive); color:var(--cream-light); }
+    .cal-day.today { border-color:var(--accent); color:var(--accent); border-width:2px; }
+    .cal-day.dosed { background:var(--accent); border-color:var(--accent); color:var(--cream-light); }
     .cal-day.no-dose { background:var(--cream-dark); border-color:var(--olive-pale); color:var(--olive-mid); }
     .cal-day.future { opacity:0.25; cursor:default; }
     .cal-day.past-empty { border-color:var(--olive-pale); color:var(--olive-pale); border-style:dashed; }
@@ -330,7 +334,7 @@
     /* Bottom nav */
     .bottom-nav { position:fixed; bottom:0; left:0; right:0; height:64px; background:var(--cream); border-top:1.5px solid var(--olive-pale); display:flex; align-items:center; justify-content:space-around; z-index:50; padding-bottom:env(safe-area-inset-bottom); }
     .nav-btn { display:flex; flex-direction:column; align-items:center; gap:3px; background:none; border:none; cursor:pointer; padding:8px 16px; color:var(--olive-pale); transition:color 0.2s; }
-    .nav-btn.active { color:var(--olive); }
+    .nav-btn.active { color:var(--accent); }
     .nav-icon { font-size:18px; line-height:1; }
     .nav-label { font-size:9px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; }
 
@@ -348,7 +352,7 @@
 
     /* Insights */
     .insight-card { background:rgba(255,255,255,0.4); border:1.5px solid var(--olive-pale); border-radius:4px; padding:16px; margin-bottom:10px; }
-    .insight-num { font-family:'Splendid',serif; font-size:40px; font-weight:700; font-style:italic; color:var(--olive); line-height:1; }
+    .insight-num { font-family:'Splendid',serif; font-size:40px; font-weight:700; font-style:italic; color:var(--accent); line-height:1; }
     .insight-label { font-size:11px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--olive-mid); margin-top:4px; }
 
 
@@ -653,8 +657,8 @@
     <div class="tab-panel active" id="w-tab-today">
 
       <!-- Phase / State hero card -->
-      <div id="w-hero" style="margin-top:8px;border:1.5px solid var(--olive);border-radius:4px;padding:20px 18px;background:rgba(58,74,30,0.04);">
-        <div id="w-hero-label" style="font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--olive);margin-bottom:8px;">Today</div>
+      <div id="w-hero" style="margin-top:8px;border:1.5px solid var(--accent);border-radius:4px;padding:20px 18px;background:var(--accent-bg);transition:border-color 0.5s,background 0.5s;">
+        <div id="w-hero-label" style="font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;transition:color 0.5s;">Today</div>
         <div id="w-hero-name" style="font-family:'Splendid',serif;font-size:36px;font-weight:700;color:var(--ink);line-height:1.1;margin-bottom:6px;">—</div>
         <div id="w-hero-sub" style="font-size:13px;color:var(--olive-mid);letter-spacing:0.04em;margin-bottom:14px;"></div>
         <p id="w-hero-desc" style="font-size:14px;color:var(--olive-mid);letter-spacing:0.02em;line-height:1.8;margin-bottom:16px;"></p>
@@ -685,10 +689,10 @@
             <div id="w-arc-reflect" style="flex:1;height:4px;border-radius:2px;background:var(--olive-pale);transition:all 0.4s;"></div>
           </div>
           <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
-            <span style="font-size:9px;color:var(--olive-pale);letter-spacing:0.1em;text-transform:uppercase;">Rest</span>
-            <span style="font-size:9px;color:var(--olive-pale);letter-spacing:0.1em;text-transform:uppercase;">Rewire</span>
-            <span style="font-size:9px;color:var(--olive-pale);letter-spacing:0.1em;text-transform:uppercase;">Radiate</span>
-            <span style="font-size:9px;color:var(--olive-pale);letter-spacing:0.1em;text-transform:uppercase;">Reflect</span>
+            <span id="w-arc-label-rest"    style="font-size:9px;color:var(--olive-pale);letter-spacing:0.1em;text-transform:uppercase;transition:color 0.4s;">Rest</span>
+            <span id="w-arc-label-rewire"  style="font-size:9px;color:var(--olive-pale);letter-spacing:0.1em;text-transform:uppercase;transition:color 0.4s;">Rewire</span>
+            <span id="w-arc-label-radiate" style="font-size:9px;color:var(--olive-pale);letter-spacing:0.1em;text-transform:uppercase;transition:color 0.4s;">Radiate</span>
+            <span id="w-arc-label-reflect" style="font-size:9px;color:var(--olive-pale);letter-spacing:0.1em;text-transform:uppercase;transition:color 0.4s;">Reflect</span>
           </div>
           <div id="w-arc-day" style="font-size:12px;color:var(--olive-mid);letter-spacing:0.08em;text-align:center;"></div>
         </div>
@@ -795,7 +799,7 @@
       <div class="settings-row">
         <span class="settings-label">Get in Touch</span>
         <div class="settings-sub" style="margin-top:6px;margin-bottom:14px;">For questions about your practice or product enquiries —</div>
-        <a href="mailto:info@neuroplasticityforthepeople.com" style="font-family:'Splendid',serif;font-size:22px;font-weight:700;font-style:italic;color:var(--olive);text-decoration:none;display:block;line-height:1.3;">info@neuroplasticity<br>forthepeople.com</a>
+        <a href="/cdn-cgi/l/email-protection#4e272028210e202b3b3c213e222f3d3a272d273a3728213c3a262b3e2b213e222b602d2123" style="font-family:'Splendid',serif;font-size:22px;font-weight:700;font-style:italic;color:var(--olive);text-decoration:none;display:block;line-height:1.3;">info@neuroplasticity<br>forthepeople.com</a>
       </div>
 
       <div class="settings-row" style="border-color:rgba(200,50,50,0.2);">
@@ -819,7 +823,7 @@
 <!-- Toast -->
 <div class="toast" id="toast">Saved</div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── STATE ─────────────────────────────
 const today = new Date().toISOString().split('T')[0];
 let user = {};
@@ -978,8 +982,39 @@ function initHeader() {
 }
 
 // ── HERO CARD ─────────────────────────
+// ── PHASE COLOUR THEMING ──────────────
+// Each phase/state gets a distinct accent that complements olive
+// All are muted, earthy — fieldnote ink in different hues
+const PHASE_COLOURS = {
+  // Cycle phases
+  rest:    { accent: '#8a4a52', pale: 'rgba(138,74,82,0.18)',  bg: 'rgba(138,74,82,0.06)'  }, // dusty rose — inward, menstrual
+  rewire:  { accent: '#3a6b52', pale: 'rgba(58,107,82,0.18)',  bg: 'rgba(58,107,82,0.06)'  }, // forest teal — fresh, follicular
+  radiate: { accent: '#8a6b2a', pale: 'rgba(138,107,42,0.18)', bg: 'rgba(138,107,42,0.06)' }, // warm amber — expansive, ovulatory
+  reflect: { accent: '#7a4a38', pale: 'rgba(122,74,56,0.18)',  bg: 'rgba(122,74,56,0.06)'  }, // terracotta — grounding, luteal
+  // Energy states
+  still:   { accent: '#4a5a72', pale: 'rgba(74,90,114,0.18)',  bg: 'rgba(74,90,114,0.06)'  }, // slate blue — calm, still
+  rising:  { accent: '#3a5a40', pale: 'rgba(58,90,64,0.18)',   bg: 'rgba(58,90,64,0.06)'   }, // deep sage — building
+  full:    { accent: '#7a6020', pale: 'rgba(122,96,32,0.18)',  bg: 'rgba(122,96,32,0.06)'  }, // deep gold — peak expression
+};
+
+function applyPhaseTheme(key) {
+  const theme = PHASE_COLOURS[key] || PHASE_COLOURS.rewire;
+  const root = document.documentElement;
+  root.style.setProperty('--accent', theme.accent);
+  root.style.setProperty('--accent-pale', theme.pale);
+  root.style.setProperty('--accent-bg', theme.bg);
+  // Also update theme-color meta for iOS status bar
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.content = '#f0ead8';
+}
+
 function renderHero() {
-  const { data, phase, day, isCycle } = getTodayData();
+  const { data, phase, day, isCycle, state } = getTodayData();
+
+  // Apply phase/state colour theme
+  if (isCycle && phase) applyPhaseTheme(phase);
+  else if (state) applyPhaseTheme(state);
+  else applyPhaseTheme('rewire');
 
   document.getElementById('w-hero-label').textContent = data.label;
   document.getElementById('w-hero-name').textContent  = data.name;
@@ -1004,8 +1039,10 @@ function renderHero() {
     arcWrap.style.display = 'block';
     ['rest','rewire','radiate','reflect'].forEach(p => {
       const el = document.getElementById('w-arc-' + p);
-      el.style.background = p === phase ? 'var(--olive)' : 'var(--olive-pale)';
+      el.style.background = p === phase ? 'var(--accent)' : 'var(--olive-pale)';
       el.style.height     = p === phase ? '6px' : '4px';
+      const lbl = document.getElementById('w-arc-label-' + p);
+      if (lbl) lbl.style.color = p === phase ? 'var(--accent)' : 'var(--olive-pale)';
     });
     document.getElementById('w-arc-day').textContent = 'Day ' + day + ' of your cycle';
   } else {
@@ -1254,9 +1291,4 @@ const MINDFULNESS = [
   {"type":"insight","cat":"History","title":"Women were excluded from early psychedelic research","content":"The 1950s–70s trials used almost exclusively male participants — the same bias that skewed all medical research for decades."},
   {"type":"insight","cat":"How it works","title":"Mindset and environment shape the experience as much as the dose","content":"Researchers consistently find that set and setting influence outcomes as significantly as the compound itself."},
   {"type":"insight","cat":"Research","title":"Menopause may be when psilocybin is most powerful","content":"Declining estrogen triggers a neuroplasticity window similar to adolescence. Psilocybin may amplify that natural receptivity."},
-  {"type":"insight","cat":"Biology","title":"Psilocybin boosts your brain's own growth hormone","content":"BDNF — the protein that keeps neurons healthy and growing — increases after psilocybin. This may explain why effects outlast the dose."}
-];
-
-</script>
-</body>
-</html>
+  {"type":"insight","cat":"Biology","title":"Psilocybin boosts your brain's own growth hormone","content":"BDNF
