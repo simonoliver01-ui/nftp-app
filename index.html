@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- nftp-app-women v19 -->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -650,6 +651,26 @@
       z-index: 998;
       background: radial-gradient(ellipse at center, transparent 60%, rgba(58,74,30,0.06) 100%);
     }
+  
+    #view-onboarding { position:absolute; inset:0; z-index:200; display:flex; flex-direction:column; opacity:0; pointer-events:none; background:var(--cream); background-image:linear-gradient(var(--grid-color) 1px,transparent 1px),linear-gradient(90deg,var(--grid-color) 1px,transparent 1px); background-size:var(--grid-size) var(--grid-size); transition:opacity 0.4s; }
+    #view-onboarding::before { content:''; position:absolute; left:52px; top:0; bottom:0; width:1px; background:rgba(180,100,100,0.13); z-index:0; }
+    #view-onboarding.active { opacity:1; pointer-events:all; }
+    .life-stage-card { width:100%; padding:16px 20px; margin-bottom:10px; border:1.5px solid rgba(92,107,58,0.22); border-radius:10px; cursor:pointer; transition:all 0.2s; text-align:left; background:transparent; }
+    .life-stage-card.selected { border-color:var(--olive-dark); background:rgba(92,107,58,0.07); }
+    .ls-title { font-family:'Splendid',serif; font-size:17px; font-weight:700; font-style:italic; color:var(--ink); margin-bottom:3px; }
+    .ls-sub { font-size:12px; color:var(--olive-mid); }
+    .ob-btn-primary { width:100%; padding:16px; background:var(--olive-dark); color:var(--cream); border:none; border-radius:8px; font-size:12px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; margin-top:20px; transition:opacity 0.2s; }
+    .ob-btn-primary[disabled] { opacity:0.35; cursor:not-allowed; }
+    .ob-btn-back { width:100%; padding:12px; background:transparent; border:1px solid rgba(92,107,58,0.25); border-radius:8px; font-size:12px; color:var(--olive-mid); cursor:pointer; margin-top:8px; letter-spacing:0.04em; }
+    .ob-step-label { font-size:11px; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:var(--olive-mid); margin-bottom:28px; text-align:center; }
+    .ob-field { width:100%; margin-bottom:16px; }
+    .ob-field label { display:block; font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--olive-mid); margin-bottom:8px; }
+    .ob-field input[type="date"], .ob-field select { width:100%; padding:13px 16px; border:1.5px solid rgba(92,107,58,0.25); border-radius:8px; background:transparent; font-size:15px; color:var(--ink); font-family:inherit; -webkit-appearance:none; }
+    .ob-context-card { width:100%; padding:20px; border-left:3px solid var(--olive-dark); background:rgba(92,107,58,0.05); border-radius:0 8px 8px 0; margin-bottom:20px; }
+    .ob-context-card p { font-size:13px; line-height:1.75; color:var(--ink); margin:0; }
+    .ob-warning-card { width:100%; padding:20px; border-left:3px solid rgba(180,100,100,0.45); background:rgba(180,100,100,0.04); border-radius:0 8px 8px 0; margin-bottom:20px; }
+    .ob-warning-card p { font-size:13px; line-height:1.75; color:var(--ink); margin:0; }
+    .ob-paused-mark { font-size:36px; text-align:center; width:100%; margin-bottom:16px; color:var(--olive-dark); }
   </style>
 </head>
 <body class="grid-bg">
@@ -661,6 +682,15 @@
      WOMEN'S TRACKER
 ══════════════════════════════════════ -->
 <div id="w-app" style="display:flex;flex-direction:column;height:100dvh;overflow:hidden;position:relative;">
+  <div id="view-onboarding">
+    <div class="screen active" id="screen-welcome" style="justify-content:center;align-items:center;text-align:center;"><div class="brand-name">Neuroplasticity for the People</div><h1 class="welcome-headline">Track with<br>your cycle</h1><p class="welcome-sub" style="max-width:280px;margin:0 auto 40px;">A microdosing tracker built around your biology — not a male-default afterthought.</p><button class="ob-btn-primary" style="max-width:280px;" onclick="obGoTo('screen-life-stage')">Get started</button></div>
+    <div class="screen" id="screen-life-stage"><div class="ob-step-label">Where are you right now?</div><div class="life-stage-card" onclick="selectLifeStage('regular',this)"><div class="ls-title">Regular cycle</div><div class="ls-sub">I track a monthly cycle</div></div><div class="life-stage-card" onclick="selectLifeStage('transition',this)"><div class="ls-title">Entering a new phase</div><div class="ls-sub">Perimenopause or hormonal shift</div></div><div class="life-stage-card" onclick="selectLifeStage('postcycle',this)"><div class="ls-title">Post-cycle</div><div class="ls-sub">Menopause</div></div><div class="life-stage-card" onclick="selectLifeStage('pregnancy',this)"><div class="ls-title">Pregnancy</div><div class="ls-sub">Currently pregnant or trying to conceive</div></div><button class="ob-btn-primary" id="btn-stage-next" disabled onclick="nextFromLifeStage()">Continue</button><button class="ob-btn-back" onclick="obGoTo('screen-welcome')">Back</button></div>
+    <div class="screen" id="screen-cycle-setup"><div class="ob-step-label">Your cycle</div><h2 class="welcome-headline" style="font-size:30px;margin-bottom:28px;">Set your<br>baseline</h2><div class="ob-field"><label>Last period start date</label><input type="date" id="input-cycle-start"></div><div class="ob-field"><label>Cycle length (days)</label><select id="input-cycle-length"><option>21</option><option>22</option><option>23</option><option>24</option><option>25</option><option>26</option><option>27</option><option selected>28</option><option>29</option><option>30</option><option>31</option><option>32</option><option>33</option><option>34</option><option>35</option></select></div><button class="ob-btn-primary" onclick="launchFromCycleSetup()">Start tracking</button><button class="ob-btn-back" onclick="obGoTo('screen-life-stage')">Back</button></div>
+    <div class="screen" id="screen-context-transition"><div class="ob-step-label">Entering a new phase</div><h2 class="welcome-headline" style="font-size:30px;margin-bottom:24px;">A different kind<br>of tracking</h2><div class="ob-context-card"><p>During perimenopause, cycle days become less predictable. This protocol tracks your morning energy state instead — Still, Rising, or Full — and adapts your microdose rhythm to how you actually feel each day.</p></div><button class="ob-btn-primary" onclick="obLaunchTracker('transition')">Start tracking</button><button class="ob-btn-back" onclick="obGoTo('screen-life-stage')">Back</button></div>
+    <div class="screen" id="screen-context-postcycle"><div class="ob-step-label">Post-cycle</div><h2 class="welcome-headline" style="font-size:30px;margin-bottom:24px;">Steadier ground,<br>deeper work</h2><div class="ob-context-card"><p>Post-menopause, the hormonal fluctuations settle. Morning energy tracking replaces cycle tracking — simpler, and often more accurate to how the brain responds on a daily basis.</p></div><button class="ob-btn-primary" onclick="obLaunchTracker('postcycle')">Start tracking</button><button class="ob-btn-back" onclick="obGoTo('screen-life-stage')">Back</button></div>
+    <div class="screen" id="screen-pregnancy"><div class="ob-step-label">A note on pregnancy</div><h2 class="welcome-headline" style="font-size:30px;margin-bottom:24px;">Come back<br>when ready</h2><div class="ob-warning-card"><p>Psilocybin microdosing during pregnancy or while trying to conceive is not currently advised — safety data is too limited. We'll save your spot.</p></div><button class="ob-btn-primary" onclick="obSaveSpot()">Save my spot</button><button class="ob-btn-back" onclick="obGoTo('screen-life-stage')">Back</button></div>
+    <div class="screen" id="screen-paused" style="justify-content:center;align-items:center;text-align:center;"><div class="ob-paused-mark">◎</div><div class="ob-step-label">Saved</div><h2 class="welcome-headline" style="font-size:36px;">We'll be here.</h2><p class="welcome-sub" style="max-width:280px;margin:0 auto;">Come back after your pregnancy and we'll get you set up on the post-cycle protocol.</p></div>
+  </div>
 
   <div id="w-welcome-insight">
   <div id="w-wi-sheet">
@@ -904,6 +934,48 @@ window.addEventListener('load', () => {
   localStorage.setItem('nftp_last_visit', today);
 });
 
+// ── ONBOARDING v19 ───────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  var u = JSON.parse(localStorage.getItem('nftp_user') || 'null');
+  if (!u || !u.onboarding_complete) {
+    var ob = document.getElementById('view-onboarding');
+    if (ob) ob.classList.add('active');
+    var wi = document.getElementById('w-welcome-insight');
+    if (wi) wi.style.display = 'none';
+  }
+});
+function obGoTo(screenId) {
+  var cur = document.querySelector('#view-onboarding .screen.active');
+  if (cur) { cur.classList.add('exit-left'); setTimeout(function(){ cur.classList.remove('active','exit-left'); }, 450); }
+  setTimeout(function(){ var n = document.getElementById(screenId); if(n) n.classList.add('active'); }, 50);
+}
+var _obStage = null;
+function selectLifeStage(stage, el) {
+  document.querySelectorAll('.life-stage-card').forEach(function(c){ c.classList.remove('selected'); });
+  el.classList.add('selected'); _obStage = stage;
+  var btn = document.getElementById('btn-stage-next'); if (btn) btn.removeAttribute('disabled');
+}
+function nextFromLifeStage() {
+  if (!_obStage) return;
+  if (_obStage === 'regular') obGoTo('screen-cycle-setup');
+  else if (_obStage === 'transition') obGoTo('screen-context-transition');
+  else if (_obStage === 'postcycle') obGoTo('screen-context-postcycle');
+  else if (_obStage === 'pregnancy') obGoTo('screen-pregnancy');
+}
+function launchFromCycleSetup() {
+  var d = document.getElementById('input-cycle-start');
+  var l = document.getElementById('input-cycle-length');
+  obLaunchTracker('regular', { cycleStart: d ? d.value : new Date().toISOString().slice(0,10), cycleLength: l ? parseInt(l.value) : 28 });
+}
+function obLaunchTracker(lifeStage, extra) {
+  var userData = Object.assign({ lifeStage: lifeStage, onboarding_complete: true, setupDate: new Date().toISOString().slice(0,10) }, extra || {});
+  localStorage.setItem('nftp_user', JSON.stringify(userData));
+  location.reload();
+}
+function obSaveSpot() {
+  localStorage.setItem('nftp_user', JSON.stringify({ lifeStage: 'pregnancy', paused: true, onboarding_complete: false }));
+  obGoTo('screen-paused');
+}
 // ── ENERGY STATE SELECTION ────────────
 function showInsightWelcome() {
   var info = getTodayData();
