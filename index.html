@@ -593,6 +593,26 @@
     }
 
 
+    #w-welcome-insight {
+      position:fixed; inset:0; background:rgba(14,16,8,0.6); z-index:150;
+      display:none; align-items:flex-end; justify-content:center;
+      opacity:0; transition:opacity 0.3s;
+    }
+    #w-welcome-insight.show { opacity:1; }
+    #w-wi-sheet {
+      background:var(--cream);
+      background-image: linear-gradient(var(--grid-color) 1px,transparent 1px), linear-gradient(90deg,var(--grid-color) 1px,transparent 1px);
+      background-size: var(--grid-size) var(--grid-size);
+      border-radius:12px 12px 0 0; padding:28px 24px 48px;
+      width:100%; max-width:480px;
+      transform:translateY(40px); transition:transform 0.3s ease;
+    }
+    #w-welcome-insight.show #w-wi-sheet { transform:translateY(0); }
+    .wi-eyebrow { font-size:10px; font-weight:700; letter-spacing:0.25em; text-transform:uppercase; color:var(--accent); margin-bottom:10px; }
+    .wi-title { font-family:'Splendid',serif; font-size:22px; font-weight:700; color:var(--ink); margin-bottom:12px; line-height:1.25; }
+    .wi-body { font-size:14px; color:var(--olive-mid); line-height:1.8; margin-bottom:24px; }
+    .wi-close { background:var(--accent); color:var(--cream-light); border:none; border-radius:4px; padding:14px; font-family:'Splendid',monospace; font-size:13px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; cursor:pointer; width:100%; transition:background 0.2s; }
+
     /* Restock banner */
     .restock-banner {
       display: none;
@@ -642,7 +662,15 @@
 ══════════════════════════════════════ -->
 <div id="w-app" style="display:flex;flex-direction:column;height:100dvh;overflow:hidden;position:relative;">
 
-  <!-- Morning energy check-in modal -->
+  <div id="w-welcome-insight">
+  <div id="w-wi-sheet">
+    <div id="w-wi-cat" class="wi-eyebrow"></div>
+    <div id="w-wi-title" class="wi-title"></div>
+    <p id="w-wi-body" class="wi-body"></p>
+    <button class="wi-close" onclick="closeInsightWelcome()">Got it</button>
+  </div>
+</div>
+<!-- Morning energy check-in modal -->
   <div id="w-checkin" style="display:none;position:fixed;inset:0;z-index:200;background:var(--cream);background-image:linear-gradient(var(--grid-color) 1px,transparent 1px),linear-gradient(90deg,var(--grid-color) 1px,transparent 1px);background-size:var(--grid-size) var(--grid-size);flex-direction:column;align-items:center;justify-content:center;padding:40px 28px;text-align:center;">
     <div style="font-family:'Splendid',serif;font-size:13px;font-weight:400;letter-spacing:0.2em;text-transform:uppercase;color:var(--olive);margin-bottom:16px;">Good morning</div>
     <div id="w-checkin-name" style="font-family:'Splendid',serif;font-size:32px;font-weight:700;color:var(--ink);line-height:1.2;margin-bottom:10px;">How are you<br>feeling today?</div>
@@ -708,10 +736,10 @@
         <!-- Cycle arc (regular cycle users only) -->
         <div id="w-arc-wrap" style="display:none;margin-top:16px;">
           <div style="display:flex;gap:6px;margin-bottom:6px;">
-            <div id="w-arc-rest"    style="flex:1;height:4px;border-radius:2px;background:var(--olive-pale);transition:all 0.4s;"></div>
-            <div id="w-arc-rewire"  style="flex:1;height:4px;border-radius:2px;background:var(--olive-pale);transition:all 0.4s;"></div>
-            <div id="w-arc-radiate" style="flex:1;height:4px;border-radius:2px;background:var(--olive-pale);transition:all 0.4s;"></div>
-            <div id="w-arc-reflect" style="flex:1;height:4px;border-radius:2px;background:var(--olive-pale);transition:all 0.4s;"></div>
+            <div id="w-arc-menstrual"    style="flex:1;height:4px;border-radius:2px;background:var(--olive-pale);transition:all 0.4s;"></div>
+            <div id="w-arc-follicular"  style="flex:1;height:4px;border-radius:2px;background:var(--olive-pale);transition:all 0.4s;"></div>
+            <div id="w-arc-ovulatory" style="flex:1;height:4px;border-radius:2px;background:var(--olive-pale);transition:all 0.4s;"></div>
+            <div id="w-arc-luteal" style="flex:1;height:4px;border-radius:2px;background:var(--olive-pale);transition:all 0.4s;"></div>
           </div>
           <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
             <span style="font-size:9px;color:var(--olive-pale);letter-spacing:0.1em;text-transform:uppercase;">Menstrual</span>
@@ -723,13 +751,6 @@
         </div>
       </div>
 
-      <!-- Today's insight -->
-      <div class="section-label" style="margin-top:20px;">Today's Insight</div>
-      <div class="mindful-card">
-        <div class="mindful-type" id="w-insight-cat">Did You Know</div>
-        <div class="mindful-title" id="w-insight-title"></div>
-        <div class="mindful-body" id="w-insight-body"></div>
-      </div>
 
       <!-- Daily log -->
       <div class="section-label" style="margin-top:20px;">Today's Log</div>
@@ -878,9 +899,33 @@ window.addEventListener('load', () => {
   renderCalendar();
   renderInsights();
   initSettings();
+  var lastVisit = localStorage.getItem('nftp_last_visit');
+  if (lastVisit && lastVisit !== today) { setTimeout(showInsightWelcome, 600); }
+  localStorage.setItem('nftp_last_visit', today);
 });
 
 // ── ENERGY STATE SELECTION ────────────
+function showInsightWelcome() {
+  var info = getTodayData();
+  var pool = (info.isCycle && info.phase && MINDFULNESS[info.phase]) ? MINDFULNESS[info.phase] : MINDFULNESS.general;
+  var startDate = user.startDate ? new Date(user.startDate + 'T00:00:00') : new Date(today + 'T00:00:00');
+  var idx = Math.max(0, Math.floor((new Date(today + 'T00:00:00') - startDate) / 86400000));
+  var item = pool[idx % pool.length];
+  var el = document.getElementById('w-welcome-insight');
+  if (!el) return;
+  document.getElementById('w-wi-cat').textContent = item.cat;
+  document.getElementById('w-wi-title').textContent = item.title;
+  document.getElementById('w-wi-body').textContent = item.content;
+  el.style.display = 'flex';
+  setTimeout(function() { el.classList.add('show'); }, 10);
+}
+function closeInsightWelcome() {
+  var el = document.getElementById('w-welcome-insight');
+  el.classList.remove('show');
+  setTimeout(function() { el.style.display = 'none'; }, 300);
+}
+
+
 function setEnergyState(state) {
   log.energyState = state;
   localStorage.setItem('nftp_log_' + today, JSON.stringify(log));
@@ -924,7 +969,7 @@ const ENERGY_STATES = {
 };
 
 const CYCLE_PHASES = {
-  rest: {
+  menstrual: {
     name: 'Menstrual',
     label: 'Menstrual phase — days 1–5',
     desc: 'Your body is shedding and resetting. Energy turns inward. Lower doses support nervous system rest without pushing against your biology.',
@@ -934,7 +979,7 @@ const CYCLE_PHASES = {
     focus: 'Rest & release',
     prompt: 'What do I need to let go of — physically, emotionally, or mentally — right now?'
   },
-  rewire: {
+  follicular: {
     name: 'Follicular',
     label: 'Follicular phase — days 6–13',
     desc: 'Oestrogen rises, neuroplasticity peaks. Your brain is at its most receptive to new patterns, habits, and ideas.',
@@ -944,7 +989,7 @@ const CYCLE_PHASES = {
     focus: 'New habits & learning',
     prompt: 'What new pattern or way of thinking am I ready to build this cycle?'
   },
-  radiate: {
+  ovulatory: {
     name: 'Ovulatory',
     label: 'Ovulatory phase — days 14–16',
     desc: "Peak energy, communication, and connection. You're at your most outward-facing. Use this window for collaboration and expression.",
@@ -954,7 +999,7 @@ const CYCLE_PHASES = {
     focus: 'Expression & connection',
     prompt: 'Where in my life am I ready to show up more fully and be seen?'
   },
-  reflect: {
+  luteal: {
     name: 'Luteal',
     label: 'Luteal phase — days 17–28',
     desc: 'Progesterone rises, energy moves inward. This phase sharpens your critical mind — ideal for reviewing and refining. Dose with care.',
@@ -975,10 +1020,10 @@ function getCyclePhase(startStr, cycleLength) {
   const menstrualEnd  = 5;
   const follicularEnd = Math.round(cycleLength * 0.43);
   const ovulatoryEnd  = Math.round(cycleLength * 0.57);
-  let phase = day <= menstrualEnd ? 'rest'
-            : day <= follicularEnd ? 'rewire'
-            : day <= ovulatoryEnd  ? 'radiate'
-            : 'reflect';
+  let phase = day <= menstrualEnd ? 'menstrual'
+            : day <= follicularEnd ? 'follicular'
+            : day <= ovulatoryEnd  ? 'ovulatory'
+            : 'luteal';
   return { phase, day, cycleLength };
 }
 
@@ -989,7 +1034,7 @@ function getTodayData() {
       const r = getCyclePhase(user.periodStart, parseInt(user.cycleLength));
       return { data: CYCLE_PHASES[r.phase], phase: r.phase, day: r.day, isCycle: true };
     }
-    return { data: CYCLE_PHASES.rewire, phase: 'rewire', isCycle: true };
+    return { data: CYCLE_PHASES.follicular, phase: 'follicular', isCycle: true };
   }
   const state = log.energyState || null;
   if (!state) return { data: ENERGY_STATES.rising, state: null, isCycle: false };
@@ -1009,16 +1054,16 @@ function initHeader() {
 // ── HERO CARD ─────────────────────────
 
 const PHASE_COLOURS = {
-  rest:    { accent: '#8a4a52', bg: 'rgba(138,74,82,0.07)',  tint: 'rgba(138,74,82,0.05)',  border: 'rgba(138,74,82,0.22)',  heroBg: '#ecddd8' },
-  rewire:  { accent: '#3a6b52', bg: 'rgba(58,107,82,0.07)',  tint: 'rgba(58,107,82,0.05)',  border: 'rgba(58,107,82,0.22)',  heroBg: '#ddeada' },
-  radiate: { accent: '#8a6b2a', bg: 'rgba(138,107,42,0.07)', tint: 'rgba(138,107,42,0.05)', border: 'rgba(138,107,42,0.22)', heroBg: '#ede8ce' },
-  reflect: { accent: '#7a4a38', bg: 'rgba(122,74,56,0.07)',  tint: 'rgba(122,74,56,0.05)',  border: 'rgba(122,74,56,0.22)',  heroBg: '#ecddd5' },
+  menstrual:{ accent: '#8a7a18', bg: 'rgba(138,122,24,0.07)', tint: 'rgba(138,122,24,0.05)', border: 'rgba(138,122,24,0.22)', heroBg: '#f0ecc4' },
+  follicular:{ accent: '#3a6b52', bg: 'rgba(58,107,82,0.07)',  tint: 'rgba(58,107,82,0.05)',  border: 'rgba(58,107,82,0.22)',  heroBg: '#ddeada' },
+  ovulatory:{ accent: '#3a5a7a', bg: 'rgba(58,90,122,0.07)',  tint: 'rgba(58,90,122,0.05)',  border: 'rgba(58,90,122,0.22)',  heroBg: '#d8e0ec' },
+  luteal:   { accent: '#8a4a52', bg: 'rgba(138,74,82,0.07)',  tint: 'rgba(138,74,82,0.05)',  border: 'rgba(138,74,82,0.22)',  heroBg: '#ecddd8' },
   still:   { accent: '#4a5a72', bg: 'rgba(74,90,114,0.07)',  tint: 'rgba(74,90,114,0.05)',  border: 'rgba(74,90,114,0.22)',  heroBg: '#dde1ec' },
   rising:  { accent: '#3a5a40', bg: 'rgba(58,90,64,0.07)',   tint: 'rgba(58,90,64,0.05)',   border: 'rgba(58,90,64,0.22)',   heroBg: '#ddeadd' },
   full:    { accent: '#7a6020', bg: 'rgba(122,96,32,0.07)',  tint: 'rgba(122,96,32,0.05)',  border: 'rgba(122,96,32,0.22)',  cream: '#eee8d4' },
 };
 function applyPhaseTheme(key) {
-  var t = PHASE_COLOURS[key] || PHASE_COLOURS.rewire;
+  var t = PHASE_COLOURS[key] || PHASE_COLOURS.follicular;
   document.documentElement.style.setProperty('--accent', t.accent);
   document.documentElement.style.setProperty('--accent-bg', t.bg);
   document.documentElement.style.setProperty('--accent-tint', t.tint);
@@ -1054,7 +1099,7 @@ function renderHero() {
   const arcWrap = document.getElementById('w-arc-wrap');
   if (isCycle) {
     arcWrap.style.display = 'block';
-    ['rest','rewire','radiate','reflect'].forEach(p => {
+    ['menstrual','follicular','ovulatory','luteal'].forEach(p => {
       const el = document.getElementById('w-arc-' + p);
       el.style.background = p === phase ? 'var(--accent)' : 'var(--olive-pale)';
       el.style.height     = p === phase ? '6px' : '4px';
@@ -1067,14 +1112,7 @@ function renderHero() {
 
 // ── INSIGHT CARD ──────────────────────
 function renderInsight() {
-  const { phase, isCycle } = getTodayData();
-  var pool = (isCycle && phase && MINDFULNESS[phase]) ? MINDFULNESS[phase] : MINDFULNESS.general;
-  const startDate = user.startDate ? new Date(user.startDate + 'T00:00:00') : new Date(today + 'T00:00:00');
-  const idx = Math.max(0, Math.floor((new Date(today + 'T00:00:00') - startDate) / 86400000));
-  const item = pool[idx % pool.length];
-  document.getElementById('w-insight-cat').textContent   = item.cat || 'Did You Know';
-  document.getElementById('w-insight-title').textContent = item.title || '';
-  document.getElementById('w-insight-body').textContent  = item.content || '';
+  // Insight card removed from today tab - now shown as welcome-back overlay
 }
 
 // ── RATING DOTS ───────────────────────
@@ -1135,10 +1173,10 @@ function wSaveToday() {
 
 // ── CALENDAR ──────────────────────────
 const CAL_COLOURS = {
-  rest:    'rgba(138,74,82,0.15)',
-  rewire:  'rgba(58,107,82,0.15)',
-  radiate: 'rgba(138,107,42,0.13)',
-  reflect: 'rgba(122,74,56,0.15)',
+  menstrual:'rgba(138,122,24,0.15)',
+  follicular:'rgba(58,107,82,0.15)',
+  ovulatory:'rgba(58,90,122,0.15)',
+  luteal:   'rgba(138,74,82,0.15)',
   still:   'rgba(74,90,114,0.15)',
   rising:  'rgba(58,90,64,0.15)',
   full:    'rgba(122,96,32,0.13)'
@@ -1283,7 +1321,7 @@ function showToast(msg) {
 }
 
 const MINDFULNESS = {
-  rest: [
+  menstrual: [
     {"cat":"Menstrual phase","title":"Your brain is in detox mode","content":"The drop in estrogen and progesterone triggers neural pruning. Your brain is clearing out what it no longer needs. Rest isn’t laziness — it’s biology."},
     {"cat":"Menstrual phase","title":"Prostaglandins are why you feel everything more","content":"These inflammatory compounds trigger uterine contractions but also heighten pain sensitivity throughout your body. Lower doses on high-cramping days are worth considering."},
     {"cat":"Menstrual phase","title":"Iron loss affects cognition","content":"You lose 30–80ml of blood this phase. Low iron directly impairs focus, memory, and energy. If brain fog is a recurring pattern here, iron is worth investigating before attributing it to anything else."},
@@ -1292,7 +1330,7 @@ const MINDFULNESS = {
     {"cat":"Menstrual phase","title":"Your pain threshold is lowest now","content":"Estrogen normally modulates pain perception. When it drops at menstruation, that buffer disappears. This is temporary, hormonal, and not a reflection of your resilience."},
     {"cat":"Menstrual phase","title":"Ancient cultures treated this as sacred time","content":"Across cultures, menstruation was seen as a time of heightened perception, not impairment. The pathologising of this phase is recent and largely commercial."}
   ],
-  rewire: [
+  follicular: [
     {"cat":"Follicular phase","title":"Estrogen is your neuroplasticity hormone","content":"Rising estrogen directly upregulates serotonin receptors and BDNF production. Your brain is measurably more plastic right now. This is the window to learn, build, and begin."},
     {"cat":"Follicular phase","title":"The best time to start new habits is now","content":"Neuroplasticity peaks in the follicular phase. New behaviours wire in more durably here than at any other point in your cycle. What you begin now has the best chance of sticking."},
     {"cat":"Follicular phase","title":"Your verbal fluency is at its highest","content":"Women score significantly higher on verbal and fine motor tasks in the follicular phase. Writing, presenting, and complex communication feel easier because they genuinely are."},
@@ -1301,7 +1339,7 @@ const MINDFULNESS = {
     {"cat":"Follicular phase","title":"Memory encoding is stronger now","content":"The hippocampus has estrogen receptors. As estrogen rises, memory formation improves. What you learn in this window is more likely to be retained long-term."},
     {"cat":"Follicular phase","title":"The research excluded women","content":"Early psychedelic trials used almost exclusively male participants. Follicular-phase amplification of psilocybin’s effects was never studied. You’re mapping territory research missed."}
   ],
-  radiate: [
+  ovulatory: [
     {"cat":"Ovulatory phase","title":"The LH surge changes your brain, not just your body","content":"The luteinising hormone surge also drives a testosterone spike alongside peak estrogen. The result is your highest cognitive and social confidence of the entire cycle."},
     {"cat":"Ovulatory phase","title":"Your face, voice, and movement are all different","content":"Research shows measurable changes in vocal pitch and movement fluidity around ovulation. You are literally more magnetic right now. This is biology, not performance."},
     {"cat":"Ovulatory phase","title":"This is your peak expression window","content":"Communication, collaboration, and creative output all peak at ovulation. Ideas that formed in the follicular phase are ready to be put into the world. Use this window with intention."},
@@ -1310,7 +1348,7 @@ const MINDFULNESS = {
     {"cat":"Ovulatory phase","title":"Empathy and social reading peak here","content":"Mirror neuron activity and social cognition are heightened around ovulation. You read rooms, faces, and unspoken dynamics more accurately now."},
     {"cat":"Ovulatory phase","title":"This window lasts roughly 3 days","content":"The ovulatory hormonal profile is unique in the entire cycle and won’t return for another month. What would you do with it if you treated it as the rare thing it actually is?"}
   ],
-  reflect: [
+  luteal: [
     {"cat":"Luteal phase","title":"Progesterone is a GABA activator","content":"Progesterone metabolises into allopregnanolone, which activates GABA receptors — your brain’s calm-down system. The slower, heavier feeling of the luteal phase is a chemical state, not a character flaw."},
     {"cat":"Luteal phase","title":"Your critical faculty is sharpest now","content":"The inward turn of the luteal phase sharpens pattern recognition and critical thinking. This is when you see through things most clearly. Editing, refining, and evaluating belong to this phase."},
     {"cat":"Luteal phase","title":"PMDD is neurological, not emotional","content":"Premenstrual dysphoric disorder involves an abnormal brain response to normal hormonal changes. It is a receptor sensitivity condition, not a mood disorder. Psilocybin may actually help modulate it."},
