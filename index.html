@@ -93,7 +93,7 @@
     ════════════════════════════════ */
     #w-app {
       position:fixed; inset:0;
-      display:flex; flex-direction:column;
+      display:none; flex-direction:column;
       overflow:hidden;
       background:var(--cream);
       background-image: linear-gradient(var(--grid-color) 1px,transparent 1px), linear-gradient(90deg,var(--grid-color) 1px,transparent 1px);
@@ -1411,6 +1411,8 @@ document.addEventListener('DOMContentLoaded', function() {
     showView('onboarding');
     var wi = document.getElementById('w-welcome-insight');
     if (wi) wi.style.display = 'none';
+  } else {
+    showView('tracker');
   }
 });
 var _obStage = null;
