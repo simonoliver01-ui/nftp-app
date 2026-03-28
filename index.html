@@ -96,8 +96,7 @@
     ════════════════════════════════ */
     #w-app {
       position:fixed; inset:0;
-      display:flex;
-      visibility:hidden; flex-direction:column;
+      display:flex; flex-direction:column;
       overflow:hidden;
       background:var(--cream);
       background-image: linear-gradient(var(--grid-color) 1px,transparent 1px), linear-gradient(90deg,var(--grid-color) 1px,transparent 1px);
@@ -1376,8 +1375,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (ob) ob.classList.add('active');
     var wi = document.getElementById('w-welcome-insight');
     if (wi) wi.style.display = 'none';
-    var wis = document.getElementById('w-wi-sheet');
-    if (wis) wis.style.display = 'none';
   }
 });
 function obGoTo(screenId) {
@@ -1413,31 +1410,24 @@ function obSaveSpot() {
   obGoTo('screen-paused');
 }
 // ── ONBOARDING BOOT GATE (v19) ─────────────────────────────
-document.addEventListener('DOMContentLoaded', function() {
+function _runBootGate() {
   var u = JSON.parse(localStorage.getItem('nftp_user') || 'null');
   var ob = document.getElementById('view-onboarding');
+  var app = document.getElementById('w-app');
   if (!u || !u.onboarding_complete) {
-    if (ob) {
-      ob.style.transition = 'none';
-      ob.style.opacity = '1';
-      ob.style.visibility = 'visible';
-      ob.classList.add('active');
-      requestAnimationFrame(function() {
-        requestAnimationFrame(function() {
-          ob.style.transition = '';
-          ob.style.opacity = '';
-          ob.style.visibility = '';
-        });
-      });
-    }
+    if (ob) ob.classList.add('active');
     var wi = document.getElementById('w-welcome-insight');
     if (wi) wi.style.display = 'none';
   } else {
     if (ob) ob.classList.remove('active');
-    var _app = document.getElementById('w-app');
-    if (_app) _app.style.visibility = 'visible';
+    if (app) app.style.visibility = 'visible';
   }
-});
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', _runBootGate);
+} else {
+  _runBootGate();
+}
 var _obStage = null;
 function selectLifeStage(stage, el) {
   document.querySelectorAll('.life-stage-card').forEach(function(c){ c.classList.remove('selected'); });
@@ -1466,7 +1456,6 @@ function showView(name) {
     if (ob) ob.classList.add('active');
   } else if (name === 'tracker') {
     if (ob) ob.classList.remove('active');
-    var _a = document.getElementById('w-app'); if(_a) _a.style.visibility='visible';
   }
 }
 
