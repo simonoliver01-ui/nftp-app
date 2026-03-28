@@ -9,10 +9,6 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <title>Microdose Tracker — Neuroplasticity for the People</title>
   <style>
-    #view-onboarding:not(.active) { display:none; }
-    html[data-onboarding="true"] #w-app { visibility:hidden !important; }
-    #view-onboarding.active { display:flex; }
-
     @font-face {
       font-family: 'Splendid';
       font-weight: 400; font-style: normal;
@@ -613,7 +609,7 @@
       opacity:0; transition:opacity 0.3s;
     }
     #w-welcome-insight.show { opacity:1; }
-    #w-wi-sheet { transform:translateY(100%);
+    #w-wi-sheet {
       background:var(--cream);
       background-image: linear-gradient(var(--grid-color) 1px,transparent 1px), linear-gradient(90deg,var(--grid-color) 1px,transparent 1px);
       background-size: var(--grid-size) var(--grid-size);
@@ -686,14 +682,10 @@
     .ob-warning-card p { font-size:13px; line-height:1.75; color:var(--ink); margin:0; }
     .ob-paused-mark { font-size:36px; text-align:center; width:100%; margin-bottom:16px; color:var(--olive-dark); }
   </style>
-<script>
-(function(){
-  var u=JSON.parse(localStorage.getItem('nftp_user')||'null');
-  if(!u||!u.onboarding_complete){
-    document.documentElement.setAttribute('data-onboarding','true');
-  }
-})();
-</script>
+<style>
+  #view-onboarding { opacity:0 !important; pointer-events:none !important; visibility:hidden !important; }
+  #view-onboarding.active { opacity:1 !important; pointer-events:all !important; visibility:visible !important; }
+</style>
 </head>
 <body class="grid-bg">
 <div class="paper-texture"></div>
@@ -1134,7 +1126,7 @@
 ══════════════════════════════════ -->
 
 
-  <div id="w-welcome-insight" style="display:none">
+  <div id="w-welcome-insight">
   <div id="w-wi-sheet">
     <div id="w-wi-cat" class="wi-eyebrow"></div>
     <div id="w-wi-title" class="wi-title"></div>
@@ -1419,24 +1411,29 @@ function obSaveSpot() {
   obGoTo('screen-paused');
 }
 // ── ONBOARDING BOOT GATE (v19) ─────────────────────────────
-function _runBootGate() {
+document.addEventListener('DOMContentLoaded', function() {
   var u = JSON.parse(localStorage.getItem('nftp_user') || 'null');
   var ob = document.getElementById('view-onboarding');
-  var app = document.getElementById('w-app');
   if (!u || !u.onboarding_complete) {
-    if (ob) ob.classList.add('active');
+    if (ob) {
+      ob.style.transition = 'none';
+      ob.style.opacity = '1';
+      ob.style.visibility = 'visible';
+      ob.classList.add('active');
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          ob.style.transition = '';
+          ob.style.opacity = '';
+          ob.style.visibility = '';
+        });
+      });
+    }
     var wi = document.getElementById('w-welcome-insight');
     if (wi) wi.style.display = 'none';
   } else {
     if (ob) ob.classList.remove('active');
-    if (app) app.style.visibility = 'visible';
   }
-}
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', _runBootGate);
-} else {
-  _runBootGate();
-}
+});
 var _obStage = null;
 function selectLifeStage(stage, el) {
   document.querySelectorAll('.life-stage-card').forEach(function(c){ c.classList.remove('selected'); });
