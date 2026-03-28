@@ -1364,7 +1364,7 @@ window.addEventListener('load', () => {
   renderInsights();
   initSettings();
   var lastVisit = localStorage.getItem('nftp_last_visit');
-  if (lastVisit && lastVisit !== today) { setTimeout(showInsightWelcome, 600); }
+  if (lastVisit && lastVisit !== today) { var _u = JSON.parse(localStorage.getItem('nftp_user')||'null'); if (_u && _u.onboarding_complete) { setTimeout(showInsightWelcome, 600); } }
   localStorage.setItem('nftp_last_visit', today);
 });
 
@@ -1415,7 +1415,19 @@ document.addEventListener('DOMContentLoaded', function() {
   var u = JSON.parse(localStorage.getItem('nftp_user') || 'null');
   var ob = document.getElementById('view-onboarding');
   if (!u || !u.onboarding_complete) {
-    if (ob) ob.classList.add('active');
+    if (ob) {
+      ob.style.transition = 'none';
+      ob.style.opacity = '1';
+      ob.style.visibility = 'visible';
+      ob.classList.add('active');
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          ob.style.transition = '';
+          ob.style.opacity = '';
+          ob.style.visibility = '';
+        });
+      });
+    }
     var wi = document.getElementById('w-welcome-insight');
     if (wi) wi.style.display = 'none';
   } else {
