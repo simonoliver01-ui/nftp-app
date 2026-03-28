@@ -689,7 +689,7 @@
 <!-- ══════════════════════════════════════
      WOMEN'S TRACKER
 ══════════════════════════════════════ -->
-<div id="w-app" style="display:flex;flex-direction:column;height:100dvh;overflow:hidden;position:relative;">
+<div id="w-app">
   <div class="view" id="view-onboarding">
 
   
@@ -1438,8 +1438,15 @@ function obSaveSpot() {
 }
 // ── STANDARD ONBOARDING FUNCTIONS ────────────────────────
 function showView(name) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.getElementById('view-' + name).classList.add('active');
+  var ob = document.getElementById('view-onboarding');
+  var app = document.getElementById('w-app');
+  if (name === 'onboarding') {
+    if (ob) { ob.style.display='flex'; ob.style.opacity='1'; ob.style.pointerEvents='all'; }
+    if (app) app.style.display='none';
+  } else if (name === 'tracker') {
+    if (ob) { ob.style.display='none'; ob.style.opacity='0'; ob.style.pointerEvents='none'; }
+    if (app) app.style.display='flex';
+  }
 }
 
 // ── ONBOARDING NAV ────────────────────
@@ -1695,8 +1702,18 @@ function skipEmail() {
 }
 
 function launchTracker() {
-  showView('tracker');
-  initTracker();
+  var u = JSON.parse(localStorage.getItem('nftp_user') || '{}');
+  u.onboarding_complete = true;
+  u.lifeStage = 'regular';
+  if (typeof userName !== 'undefined') u.name = userName;
+  if (typeof selectedProtocol !== 'undefined') u.protocol = selectedProtocol;
+  var startEl = document.getElementById('input-cycle-start');
+  var lenEl = document.getElementById('input-cycle-length');
+  if (startEl && startEl.value) u.periodStart = startEl.value;
+  if (lenEl && lenEl.value) u.cycleLength = parseInt(lenEl.value) || 28;
+  u.setupDate = new Date().toISOString().slice(0,10);
+  localStorage.setItem('nftp_user', JSON.stringify(u));
+  location.reload();
 }
 
 // ── ENERGY STATE SELECTION ────────────
