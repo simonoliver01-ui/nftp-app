@@ -1407,12 +1407,16 @@ function obSaveSpot() {
 // ── ONBOARDING BOOT GATE (v19) ─────────────────────────────
 document.addEventListener('DOMContentLoaded', function() {
   var u = JSON.parse(localStorage.getItem('nftp_user') || 'null');
+  var ob = document.getElementById('view-onboarding');
+  var app = document.getElementById('w-app');
   if (!u || !u.onboarding_complete) {
-    showView('onboarding');
+    if (ob) ob.classList.add('active');
+    if (app) app.style.display = 'none';
     var wi = document.getElementById('w-welcome-insight');
     if (wi) wi.style.display = 'none';
   } else {
-    showView('tracker');
+    if (ob) ob.classList.remove('active');
+    if (app) app.style.display = 'flex';
   }
 });
 var _obStage = null;
@@ -1441,11 +1445,11 @@ function showView(name) {
   var ob = document.getElementById('view-onboarding');
   var app = document.getElementById('w-app');
   if (name === 'onboarding') {
-    if (ob) { ob.style.display='flex'; ob.style.opacity='1'; ob.style.pointerEvents='all'; }
-    if (app) app.style.display='none';
+    if (ob) ob.classList.add('active');
+    if (app) app.style.display = 'none';
   } else if (name === 'tracker') {
-    if (ob) { ob.style.display='none'; ob.style.opacity='0'; ob.style.pointerEvents='none'; }
-    if (app) app.style.display='flex';
+    if (ob) ob.classList.remove('active');
+    if (app) app.style.display = 'flex';
   }
 }
 
@@ -1704,9 +1708,9 @@ function skipEmail() {
 function launchTracker() {
   var u = JSON.parse(localStorage.getItem('nftp_user') || '{}');
   u.onboarding_complete = true;
-  u.lifeStage = 'regular';
-  if (typeof userName !== 'undefined') u.name = userName;
-  if (typeof selectedProtocol !== 'undefined') u.protocol = selectedProtocol;
+  u.lifeStage = u.lifeStage || 'regular';
+  if (typeof userName !== 'undefined' && userName) u.name = userName;
+  if (typeof selectedProtocol !== 'undefined' && selectedProtocol) u.protocol = selectedProtocol;
   var startEl = document.getElementById('input-cycle-start');
   var lenEl = document.getElementById('input-cycle-length');
   if (startEl && startEl.value) u.periodStart = startEl.value;
