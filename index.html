@@ -1410,8 +1410,8 @@ function obSaveSpot() {
   localStorage.setItem('nftp_user', JSON.stringify({ lifeStage: 'pregnancy', paused: true, onboarding_complete: false }));
   obGoTo('screen-paused');
 }
-// ── ONBOARDING BOOT GATE (v19) ─────────────────────────────
-document.addEventListener('DOMContentLoaded', function() {
+// boot gate: see inline script before <script>
+(function() {
   var u = JSON.parse(localStorage.getItem('nftp_user') || 'null');
   var ob = document.getElementById('view-onboarding');
   if (!u || !u.onboarding_complete) {
@@ -1420,20 +1420,16 @@ document.addEventListener('DOMContentLoaded', function() {
       ob.style.opacity = '1';
       ob.style.visibility = 'visible';
       ob.classList.add('active');
-      requestAnimationFrame(function() {
-        requestAnimationFrame(function() {
-          ob.style.transition = '';
-          ob.style.opacity = '';
-          ob.style.visibility = '';
-        });
-      });
+      setTimeout(function(){ ob.style.transition=''; ob.style.opacity=''; ob.style.visibility=''; }, 0);
     }
     var wi = document.getElementById('w-welcome-insight');
     if (wi) wi.style.display = 'none';
   } else {
     if (ob) ob.classList.remove('active');
   }
-});
+})();
+</script>
+</body>
 var _obStage = null;
 function selectLifeStage(stage, el) {
   document.querySelectorAll('.life-stage-card').forEach(function(c){ c.classList.remove('selected'); });
