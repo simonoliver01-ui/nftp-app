@@ -1334,6 +1334,7 @@
 <div class="toast" id="toast">Saved</div>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+
 // ── STATE ─────────────────────────────
 const today = new Date().toISOString().split('T')[0];
 let user = {};
@@ -1410,25 +1411,7 @@ function obSaveSpot() {
   localStorage.setItem('nftp_user', JSON.stringify({ lifeStage: 'pregnancy', paused: true, onboarding_complete: false }));
   obGoTo('screen-paused');
 }
-// boot gate: see inline script before <script>
-(function() {
-  var u = JSON.parse(localStorage.getItem('nftp_user') || 'null');
-  var ob = document.getElementById('view-onboarding');
-  if (!u || !u.onboarding_complete) {
-    if (ob) ob.classList.add('active');
-    var wi = document.getElementById('w-welcome-insight');
-    if (wi) wi.style.display = 'none';
-  } else {
-    if (ob) ob.classList.remove('active');
-  }
-})();
-</script>
-</body>
-var _obStage = null;
-function selectLifeStage(stage, el) {
-  document.querySelectorAll('.life-stage-card').forEach(function(c){ c.classList.remove('selected'); });
-  el.classList.add('selected'); _obStage = stage;
-  var btn = document.getElementById('btn-stage-next'); if(btn) btn.removeAttribute('disabled');
+// boot gate: see inline script before  var btn = document.getElementById('btn-stage-next'); if(btn) btn.removeAttribute('disabled');
 }
 function nextFromLifeStage() {
   if(!_obStage) return;
@@ -2188,6 +2171,18 @@ const MINDFULNESS = {
     {"cat":"Why this works","title":"Rest days are where the work actually happens","content":"Psilocybin opens a plasticity window. Off-days are when your brain consolidates what it learned. Dosing every day closes the window before anything sticks. The protocol is the point."}
   ]
 }
+// ── ONBOARDING BOOT GATE ─────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  var u = JSON.parse(localStorage.getItem('nftp_user') || 'null');
+  var ob = document.getElementById('view-onboarding');
+  if (!u || !u.onboarding_complete) {
+    if (ob) ob.classList.add('active');
+    var wi = document.getElementById('w-welcome-insight');
+    if (wi) wi.style.display = 'none';
+  } else {
+    if (ob) ob.classList.remove('active');
+  }
+});
 </script>
 </body>
 </html>
