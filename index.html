@@ -10,6 +10,7 @@
   <title>Microdose Tracker — Neuroplasticity for the People</title>
   <style>
     #view-onboarding:not(.active) { display:none; }
+    html[data-onboarding="true"] #w-app { visibility:hidden !important; }
     #view-onboarding.active { display:flex; }
 
     @font-face {
@@ -612,7 +613,7 @@
       opacity:0; transition:opacity 0.3s;
     }
     #w-welcome-insight.show { opacity:1; }
-    #w-wi-sheet {
+    #w-wi-sheet { transform:translateY(100%);
       background:var(--cream);
       background-image: linear-gradient(var(--grid-color) 1px,transparent 1px), linear-gradient(90deg,var(--grid-color) 1px,transparent 1px);
       background-size: var(--grid-size) var(--grid-size);
@@ -685,6 +686,14 @@
     .ob-warning-card p { font-size:13px; line-height:1.75; color:var(--ink); margin:0; }
     .ob-paused-mark { font-size:36px; text-align:center; width:100%; margin-bottom:16px; color:var(--olive-dark); }
   </style>
+<script>
+(function(){
+  var u=JSON.parse(localStorage.getItem('nftp_user')||'null');
+  if(!u||!u.onboarding_complete){
+    document.documentElement.setAttribute('data-onboarding','true');
+  }
+})();
+</script>
 </head>
 <body class="grid-bg">
 <div class="paper-texture"></div>
