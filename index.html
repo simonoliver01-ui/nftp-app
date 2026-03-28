@@ -602,6 +602,7 @@
     }
 
 
+    #view-onboarding.active ~ #w-welcome-insight, #view-onboarding.active + * #w-welcome-insight { display:none !important; }
     #w-welcome-insight {
       position:fixed; inset:0; background:rgba(14,16,8,0.6); z-index:150;
       display:none; align-items:flex-end; justify-content:center;
@@ -681,6 +682,10 @@
     .ob-warning-card p { font-size:13px; line-height:1.75; color:var(--ink); margin:0; }
     .ob-paused-mark { font-size:36px; text-align:center; width:100%; margin-bottom:16px; color:var(--olive-dark); }
   </style>
+<style>
+  #view-onboarding { opacity:0 !important; pointer-events:none !important; visibility:hidden !important; }
+  #view-onboarding.active { opacity:1 !important; pointer-events:all !important; visibility:visible !important; }
+</style>
 </head>
 <body class="grid-bg">
 <div class="paper-texture"></div>
@@ -1498,10 +1503,13 @@ const stampPositions = {
   'screen-email':    { top:'20%',  left:'15%',  rot:'-5deg' },
   'screen-complete': { top:'25%',  left:'5%',   rot:'10deg' },
 };
-function moveStamp(id) {
-  const pos = stampPositions[id]; if (!pos) return;
-  const s = document.getElementById('stamp');
-  s.style.top = pos.top; s.style.left = pos.left; s.style.transform = 'rotate(' + pos.rot + ')';
+function moveStamp(screenId) {
+  var el = document.getElementById('ob-stamp');
+  if (!el) return;
+  var screen = document.getElementById(screenId);
+  if (!screen) return;
+  var r = screen.getBoundingClientRect();
+  el.style.top = (r.top + 8) + 'px';
 }
 moveStamp('screen-welcome');
 
