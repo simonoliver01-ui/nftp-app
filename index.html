@@ -9,9 +9,6 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <title>Microdose Tracker — Neuroplasticity for the People</title>
   <style>
-    #view-onboarding:not(.active) { display:none; }
-    #view-onboarding.active { display:flex; }
-
     @font-face {
       font-family: 'Splendid';
       font-weight: 400; font-style: normal;
@@ -96,7 +93,8 @@
     ════════════════════════════════ */
     #w-app {
       position:fixed; inset:0;
-      display:flex; flex-direction:column;
+      display:flex;
+      visibility:hidden; flex-direction:column;
       overflow:hidden;
       background:var(--cream);
       background-image: linear-gradient(var(--grid-color) 1px,transparent 1px), linear-gradient(90deg,var(--grid-color) 1px,transparent 1px);
@@ -605,7 +603,8 @@
     }
 
 
-    #view-onboarding.active ~ #w-welcome-insight, #view-onboarding.active + * #w-welcome-insight { display:none !important; }
+    #view-onboarding.active ~ #w-welcome-insight, #view-onboarding.active + * #view-onboarding.active ~ * #w-welcome-insight, body:has(#view-onboarding.active) #w-welcome-insight { display:none !important; }
+    #w-welcome-insight { display:none !important; }
     #w-welcome-insight {
       position:fixed; inset:0; background:rgba(14,16,8,0.6); z-index:150;
       display:none; align-items:flex-end; justify-content:center;
@@ -685,6 +684,10 @@
     .ob-warning-card p { font-size:13px; line-height:1.75; color:var(--ink); margin:0; }
     .ob-paused-mark { font-size:36px; text-align:center; width:100%; margin-bottom:16px; color:var(--olive-dark); }
   </style>
+<style>
+  #view-onboarding { opacity:0 !important; pointer-events:none !important; visibility:hidden !important; }
+  #view-onboarding.active { opacity:1 !important; pointer-events:all !important; visibility:visible !important; }
+</style>
 </head>
 <body class="grid-bg">
 <div class="paper-texture"></div>
@@ -1457,10 +1460,12 @@ function obSaveSpot() {
 // ── STANDARD ONBOARDING FUNCTIONS ────────────────────────
 function showView(name) {
   var ob = document.getElementById('view-onboarding');
+  var app = document.getElementById('w-app');
   if (name === 'onboarding') {
     if (ob) ob.classList.add('active');
   } else if (name === 'tracker') {
     if (ob) ob.classList.remove('active');
+    if (app) app.style.visibility = 'visible';
   }
 }
 
