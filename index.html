@@ -93,7 +93,7 @@
     ════════════════════════════════ */
     #w-app {
       position:fixed; inset:0;
-      display:none; flex-direction:column;
+      display:flex; flex-direction:column;
       overflow:hidden;
       background:var(--cream);
       background-image: linear-gradient(var(--grid-color) 1px,transparent 1px), linear-gradient(90deg,var(--grid-color) 1px,transparent 1px);
@@ -663,6 +663,7 @@
     #view-onboarding { position:absolute; inset:0; z-index:200; display:flex; flex-direction:column; opacity:0; pointer-events:none; background:var(--cream); background-image:linear-gradient(var(--grid-color) 1px,transparent 1px),linear-gradient(90deg,var(--grid-color) 1px,transparent 1px); background-size:var(--grid-size) var(--grid-size); transition:opacity 0.4s; }
     #view-onboarding::before { content:''; position:absolute; left:52px; top:0; bottom:0; width:1px; background:rgba(180,100,100,0.13); z-index:0; }
     #view-onboarding.active { opacity:1; pointer-events:all; }
+    #view-onboarding:not(.active) { opacity:0; pointer-events:none; visibility:hidden; }
     .life-stage-card { width:100%; padding:16px 20px; margin-bottom:10px; border:1.5px solid rgba(92,107,58,0.22); border-radius:10px; cursor:pointer; transition:all 0.2s; text-align:left; background:transparent; }
     .life-stage-card.selected { border-color:var(--olive-dark); background:rgba(92,107,58,0.07); }
     .ls-title { font-family:'Splendid',serif; font-size:17px; font-weight:700; font-style:italic; color:var(--ink); margin-bottom:3px; }
@@ -1408,15 +1409,12 @@ function obSaveSpot() {
 document.addEventListener('DOMContentLoaded', function() {
   var u = JSON.parse(localStorage.getItem('nftp_user') || 'null');
   var ob = document.getElementById('view-onboarding');
-  var app = document.getElementById('w-app');
   if (!u || !u.onboarding_complete) {
     if (ob) ob.classList.add('active');
-    if (app) app.style.display = 'none';
     var wi = document.getElementById('w-welcome-insight');
     if (wi) wi.style.display = 'none';
   } else {
     if (ob) ob.classList.remove('active');
-    if (app) app.style.display = 'flex';
   }
 });
 var _obStage = null;
@@ -1443,13 +1441,10 @@ function obSaveSpot() {
 // ── STANDARD ONBOARDING FUNCTIONS ────────────────────────
 function showView(name) {
   var ob = document.getElementById('view-onboarding');
-  var app = document.getElementById('w-app');
   if (name === 'onboarding') {
     if (ob) ob.classList.add('active');
-    if (app) app.style.display = 'none';
   } else if (name === 'tracker') {
     if (ob) ob.classList.remove('active');
-    if (app) app.style.display = 'flex';
   }
 }
 
