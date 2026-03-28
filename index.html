@@ -96,7 +96,8 @@
     ════════════════════════════════ */
     #w-app {
       position:fixed; inset:0;
-      display:flex; flex-direction:column;
+      display:flex;
+      visibility:hidden; flex-direction:column;
       overflow:hidden;
       background:var(--cream);
       background-image: linear-gradient(var(--grid-color) 1px,transparent 1px), linear-gradient(90deg,var(--grid-color) 1px,transparent 1px);
@@ -1375,6 +1376,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (ob) ob.classList.add('active');
     var wi = document.getElementById('w-welcome-insight');
     if (wi) wi.style.display = 'none';
+    var wis = document.getElementById('w-wi-sheet');
+    if (wis) wis.style.display = 'none';
   }
 });
 function obGoTo(screenId) {
@@ -1431,6 +1434,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (wi) wi.style.display = 'none';
   } else {
     if (ob) ob.classList.remove('active');
+    var _app = document.getElementById('w-app');
+    if (_app) _app.style.visibility = 'visible';
   }
 });
 var _obStage = null;
@@ -1461,6 +1466,7 @@ function showView(name) {
     if (ob) ob.classList.add('active');
   } else if (name === 'tracker') {
     if (ob) ob.classList.remove('active');
+    var _a = document.getElementById('w-app'); if(_a) _a.style.visibility='visible';
   }
 }
 
