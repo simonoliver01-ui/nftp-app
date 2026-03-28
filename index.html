@@ -1533,53 +1533,6 @@ function optInCycle() {
 
 
 
-const CYCLE_PHASES = {
-  rest: {
-    name: 'Rest',
-    label: 'Menstrual phase',
-    desc: 'Your body is shedding and resetting. Energy turns inward. This is a time for gentleness — lower doses support nervous system rest without pushing against your biology.',
-    dose: '50–100mg',
-    freq: '1–2× week',
-    stack: [['Reishi', '500mg'], ['Ashwagandha', '300mg']],
-    focus: 'Rest & release',
-    prompt: 'What do I need to let go of — physically, emotionally, or mentally — right now?',
-    arc: 'rest'
-  },
-  rewire: {
-    name: 'Rewire',
-    label: 'Follicular phase',
-    desc: 'Oestrogen rises, neuroplasticity peaks. Your brain is at its most receptive to new patterns, habits, and ideas. This is when microdosing is most potent for rewiring.',
-    dose: '100–200mg',
-    freq: '3–4× week',
-    stack: [['Lion\'s Mane', '500mg'], ['Rhodiola', '200mg']],
-    focus: 'New habits & learning',
-    prompt: 'What new pattern or way of thinking am I ready to build this cycle?',
-    arc: 'rewire'
-  },
-  radiate: {
-    name: 'Radiate',
-    label: 'Ovulatory phase',
-    desc: 'Peak energy, communication, and connection. You\'re at your most outward-facing. Use this window for collaboration, expression, and bringing ideas into the world.',
-    dose: '100–150mg',
-    freq: '2–3× week',
-    stack: [['Lion\'s Mane', '500mg'], ['Cordyceps', '400mg']],
-    focus: 'Expression & connection',
-    prompt: 'Where in my life am I ready to show up more fully and be seen?',
-    arc: 'radiate'
-  },
-  reflect: {
-    name: 'Reflect',
-    label: 'Luteal phase',
-    desc: 'Progesterone rises, energy moves inward again. This phase sharpens your critical mind — ideal for reviewing, refining, and auditing what\'s working. Sensitivity may increase; dose with care.',
-    dose: '75–125mg',
-    freq: '2–3× week',
-    stack: [['Reishi', '500mg'], ['Magnesium', '300mg'], ['Vitamin B6', '50mg']],
-    focus: 'Review & refine',
-    prompt: 'What have I been avoiding looking at honestly — and what would clarity here change?',
-    arc: 'reflect'
-  }
-};
-
 function getCyclePhase(periodStartStr, cycleLength) {
   const start = new Date(periodStartStr);
   const today = new Date();
