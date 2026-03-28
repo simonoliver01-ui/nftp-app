@@ -1415,13 +1415,7 @@ function obSaveSpot() {
   var u = JSON.parse(localStorage.getItem('nftp_user') || 'null');
   var ob = document.getElementById('view-onboarding');
   if (!u || !u.onboarding_complete) {
-    if (ob) {
-      ob.style.transition = 'none';
-      ob.style.opacity = '1';
-      ob.style.visibility = 'visible';
-      ob.classList.add('active');
-      setTimeout(function(){ ob.style.transition=''; ob.style.opacity=''; ob.style.visibility=''; }, 0);
-    }
+    if (ob) ob.classList.add('active');
     var wi = document.getElementById('w-welcome-insight');
     if (wi) wi.style.display = 'none';
   } else {
